@@ -31,6 +31,7 @@ if ('-h' in sys.argv) or ('-help' in sys.argv):
     print('-e  -events       will run just the events Sophos pull')
     print('-h  -help         brings up help screen')
     print('-r  -run          will run both the alerts and events Sophos pulls')
+    print('-w  -whoami       will attempt a whoami authentication')
 
 if ('-r' in  sys.argv) or ('-run' in sys.argv):
     print('*** Pulling Both Alerts and Events ***')
@@ -45,3 +46,6 @@ if ('-r' in  sys.argv) or ('-run' in sys.argv):
         p1.join()
         p2.join()
 
+if ('-w' in sys.argv) or ('-whoami' in sys.argv):
+    print('*** Attempting WhoAmI Authentication ***')
+    sf.whoami():
