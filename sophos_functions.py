@@ -88,16 +88,34 @@ def whoami():
     whoami returns the unique ID assigned to the specific entity.
     whoami takes no parameters but is needed for all api requests to get a X-Tenant-ID and a data region
     """
-    auth = auth_header_grab() # grabs the proper Authorization header
-    requestUrl = "https://api.central.sophos.com/whoami/v1"
-    requestHeaders = {
-        "Authorization": auth,
-        "Accept": "application/json"
-    }
+    success = 5
+    while success >= 0:
+        try:
+            auth = auth_header_grab() # grabs the proper Authorization header
+            requestUrl = "https://api.central.sophos.com/whoami/v1"
+            requestHeaders = {
+                "Authorization": auth,
+                "Accept": "application/json"
+            }
 
-    request = requests.get(requestUrl, headers=requestHeaders)
+            request = requests.get(requestUrl, headers=requestHeaders)
 
-    return (request.json()) # will return in a dict the X-Tenant-ID and the data region
+            return (request.json()) # will return in a dict the X-Tenant-ID and the data region
+
+        except:
+
+            if success == 0:
+                note = 'WhoAmI Authentication TimedOut'
+                message = log_add(note, 'System', True)
+                print(message)
+                success = success - 1
+                
+
+            else:
+                note = 'WhoAmI Authentication unsuccessful, attempting ' + str(success) + ' more attempts.'
+                message = log_add(note, 'System', True)
+                print(message)
+                success = success - 1
 
 def alerts():
     """

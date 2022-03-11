@@ -47,5 +47,6 @@ if ('-r' in  sys.argv) or ('-run' in sys.argv):
         p2.join()
 
 if ('-w' in sys.argv) or ('-whoami' in sys.argv):
-    print('*** Attempting WhoAmI Authentication ***')
     sf.whoami()
+
+
