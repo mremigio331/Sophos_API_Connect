@@ -8,7 +8,7 @@ global log_from
 log_from = 'Events'
 
 def start():
-    log_file_name = 'events_log.json'
+    log_file_name = '/var/log/sophos_events'
 
     txt_file_exists = exists('Sophos_Logs.log')
     if txt_file_exists is True:
