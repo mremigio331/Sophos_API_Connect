@@ -68,7 +68,7 @@ def auth_header_grab():
     This function returns the proper authentication header by taking the API token (client_id(str) and client_secret(str)) and creating the proper header.
     The client_id and client_secret are in a config file which is imported
     """
-    with open('../sophos.conf') as f:
+    with open('sophos.conf') as f:
         lines = [line.strip() for line in f]
         print(lines)
 

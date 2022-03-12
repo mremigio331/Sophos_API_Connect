@@ -54,7 +54,7 @@ def start():
 
 
 def run():
-    with open('../sophos.conf') as f:
+    with open('sophos.conf') as f:
         lines = [line.strip() for line in f]
 
     for x in lines:
@@ -64,7 +64,7 @@ def run():
 
     while status is True:
 
-        with open('../sophos.conf') as f:
+        with open('sophos.conf') as f:
             lines = [line.strip() for line in f]
 
         for x in lines:
