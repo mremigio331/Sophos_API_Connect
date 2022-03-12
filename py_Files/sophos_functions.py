@@ -70,7 +70,6 @@ def auth_header_grab():
     """
     with open('sophos.conf') as f:
         lines = [line.strip() for line in f]
-        print(lines)
 
     for x in lines:
         if 'client_id' in x:

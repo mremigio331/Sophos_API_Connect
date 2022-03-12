@@ -6,6 +6,10 @@ import alerts
 import events
 import sophos_functions as sf
 
+cwd = sys.argv[0]
+if '/' in cwd:
+    mvwd = cwd.split('sophos_auto.py')[0]
+    os.chdir(mvwd)
 
 def alert_grab():
     alerts.run()
