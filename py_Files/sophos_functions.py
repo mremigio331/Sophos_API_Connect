@@ -7,6 +7,8 @@ import urllib.request
 import requests
 from datetime import datetime
 
+global pwd
+pwd = os.getcwd()
 
 def api_request(url, method='GET', params={}, headers={}, body=None, is_json=True):
     full_url = url
@@ -66,7 +68,7 @@ def auth_header_grab():
     This function returns the proper authentication header by taking the API token (client_id(str) and client_secret(str)) and creating the proper header.
     The client_id and client_secret are in a config file which is imported
     """
-    with open('sophos.conf') as f:
+    with open('../sophos.conf') as f:
         lines = [line.strip() for line in f]
 
     for x in lines:
@@ -100,6 +102,10 @@ def whoami():
 
             request = requests.get(requestUrl, headers=requestHeaders)
 
+            note = 'WhoAmI Authentication Sucessfull''
+            full_note = log_add(note, 'System', False)
+            print(full_note)
+
             return (request.json()) # will return in a dict the X-Tenant-ID and the data region
 
         except:
@@ -109,7 +115,7 @@ def whoami():
                 message = log_add(note, 'System', True)
                 print(message)
                 success = success - 1
-                
+
 
             else:
                 note = 'WhoAmI Authentication unsuccessful, attempting ' + str(success) + ' more attempts.'
@@ -416,7 +422,7 @@ def add_data(events,filename):
 
 def log_add(note,log_from,log):
     if log is True:
-        with open('Sophos_Logs.log', 'a') as f:
+        with open('../Sophos_Logs.log', 'a') as f:
             now = datetime.now()
             now = now.strftime('%d/%m/%Y %H:%M:%S')
             full_note = '[' + log_from + ' Log ' + now + '] ' + note

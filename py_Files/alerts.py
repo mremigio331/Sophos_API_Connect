@@ -10,7 +10,7 @@ log_from = 'Alerts'
 def start():
     log_file_name = '/var/log/sophos_alerts'
 
-    txt_file_exists = exists('Sophos_Logs.log')
+    txt_file_exists = exists('../Sophos_Logs.log')
     if txt_file_exists is True:
         pass
     if txt_file_exists is False:
@@ -54,7 +54,7 @@ def start():
 
 
 def run():
-    with open('sophos.conf') as f:
+    with open('../sophos.conf') as f:
         lines = [line.strip() for line in f]
 
     for x in lines:
@@ -64,7 +64,7 @@ def run():
 
     while status is True:
 
-        with open('sophos.conf') as f:
+        with open('../sophos.conf') as f:
             lines = [line.strip() for line in f]
 
         for x in lines:
