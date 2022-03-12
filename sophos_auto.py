@@ -1,5 +1,5 @@
 import sys
-
+import os
 cwd = sys.argv[0]
 if '/' in cwd:
     mvwd = cwd.split('sophos_auto.py')[0]
