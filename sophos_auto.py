@@ -1,4 +1,10 @@
 import sys
+
+cwd = sys.argv[0]
+if '/' in cwd:
+    mvwd = cwd.split('sophos_auto.py')[0]
+    os.chdir(mvwd)
+
 import multiprocessing
 from multiprocessing import Process, Pool, Manager, freeze_support
 sys.path.append('py_Files/')
@@ -6,10 +12,7 @@ import alerts
 import events
 import sophos_functions as sf
 
-cwd = sys.argv[0]
-if '/' in cwd:
-    mvwd = cwd.split('sophos_auto.py')[0]
-    os.chdir(mvwd)
+
 
 def alert_grab():
     alerts.run()
@@ -51,6 +54,7 @@ if ('-r' in  sys.argv) or ('-run' in sys.argv):
         p2.join()
 
 if ('-w' in sys.argv) or ('-whoami' in sys.argv):
+    print('*** Attempting a WhoAmI Authentication Request ***')
     sf.whoami()
 
 
