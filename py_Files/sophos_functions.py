@@ -102,7 +102,7 @@ def whoami():
 
             request = requests.get(requestUrl, headers=requestHeaders)
 
-            note = 'WhoAmI Authentication Sucessfull''
+            note = 'WhoAmI Authentication Sucessfull'
             full_note = log_add(note, 'System', False)
             print(full_note)
 
