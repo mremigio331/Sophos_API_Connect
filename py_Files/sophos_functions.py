@@ -531,7 +531,7 @@ def events_add_data(events,logfile,newfile):
                 events_list.append(event_line)
 
                 new_event_id_count = new_event_id_count + 1
-                note = 'Event ID: ' + event_id + ' created at ' + createdAt + ' added. Name: ' + name
+                note = 'Event ID: ' + eventID + ' created at ' + createdAt + ' added. Name: ' + name
                 message = log_add(note, log_from, True)
                 print(message)
 
@@ -581,7 +581,7 @@ def events_add_data(events,logfile,newfile):
                     events_list.append(event_line)
 
                     new_event_id_count = new_event_id_count + 1
-                    note = 'Event ID: ' + event_id + ' created at ' + createdAt + ' added. Name: ' + name
+                    note = 'Event ID: ' + eventID + ' created at ' + createdAt + ' added. Name: ' + name
                     message = log_add(note, log_from, True)
                     print(message)
 
