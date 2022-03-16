@@ -585,6 +585,7 @@ def events_add_data(events,logfile,newfile):
                     message = log_add(note, log_from, True)
                     print(message)
 
+
         with open(logfile, 'a') as f:
             for x in events_list:
                 f.write(x + '\n')
