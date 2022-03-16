@@ -438,7 +438,7 @@ def alert_add_data(alerts,logfile,newfile):
             alertType = x['type']
 
             alert_line = '[Timestamp: ' + raisedAt + '] ' + '[AlertID: ' + alert_id + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[AllowedActions: {' + allowedActions + '}] ' + '[Product: ' + product + '] ' + '[GroupKey: ' + groupKey + ']'
-            alert_list.append(alert_list)
+            alert_list.append(alert_line)
 
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + alert_id + ' raised at ' + raisedAt + ' added. Description: ' + description
