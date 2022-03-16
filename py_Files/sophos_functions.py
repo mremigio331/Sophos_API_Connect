@@ -455,7 +455,7 @@ def alert_add_data(alerts,logfile,newfile):
 
     if newfile is False:
         today = datetime.now()
-        today = now.strftime('%Y-%m-%d')
+        today = today.strftime('%Y-%m-%d')
 
         with open(logfile, 'r') as f:
             current_alerts = [line.strip() for line in f]
