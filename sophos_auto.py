@@ -24,7 +24,7 @@ if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
     print('*** Pulling Just Alerts ***')
     note = 'Initiating Sophos Alerts Pull'
     sf.log_add(note, 'System',True)
-    events_grab()
+    alert_grab()
 
 if ('-e' in  sys.argv) or ('-events' in sys.argv):
     print('*** Pulling Just Events ***')

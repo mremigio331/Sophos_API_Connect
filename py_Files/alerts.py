@@ -8,7 +8,14 @@ global log_from
 log_from = 'Alerts'
 
 def json_start():
-    log_file_name = '/var/log/sophos_alerts'
+    for x in lines:
+        if 'save_file_location' in x:
+            try:
+                save_file_location = x.split(' = ')[1]
+                log_file_name = save_file_location + 'Sophos_alerts'
+
+            except:
+                log_file_name = 'Sophos_alerts'nano
 
     txt_file_exists = exists('../Sophos_Logs.log')
     if txt_file_exists is True:
