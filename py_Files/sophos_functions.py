@@ -466,7 +466,8 @@ def alert_add_data(alerts,logfile,newfile):
             alert_id = x.split('AlertID: ')[1].split(']')[0]
             alert_id_list.append(alert_id)
 
-        new_alert_id_count = []
+        new_alert_id_count = 0
+        events_list = []
         for x in alerts:
             alert_id = x['id']
             if alert_id in alert_id_list:
