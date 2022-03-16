@@ -423,7 +423,7 @@ def add_data_json(events,filename):
 def alert_add_data(alerts,logfile,newfile):
 
     if newfile is True:
-        new_alert_id_count = []
+        new_alert_id_count = 0
         events_list = []
         for x in alerts:
             alert_id = x['id']
