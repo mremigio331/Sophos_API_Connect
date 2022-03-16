@@ -585,14 +585,14 @@ def events_add_data(events,logfile,newfile):
                     message = log_add(note, log_from, True)
                     print(message)
 
-            with open(logfile, 'a') as f:
-                for x in events_list:
-                    f.write(x + '\n')
-                f.close()
+        with open(logfile, 'a') as f:
+            for x in events_list:
+                f.write(x + '\n')
+            f.close()
 
-            note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-            message = log_add(note, log_from, False)
-            print(message)
+        note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
+        message = log_add(note, log_from, False)
+        print(message)
 
 
 def log_add(note,log_from,log):
