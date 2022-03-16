@@ -7,7 +7,7 @@ import sys
 global log_from
 log_from = 'Alerts'
 
-def start():
+def json_start():
     log_file_name = '/var/log/sophos_alerts'
 
     txt_file_exists = exists('../Sophos_Logs.log')
@@ -51,6 +51,39 @@ def start():
         message = sf.log_add(note,log_from,False)
         print(message)
 
+
+def txt_start()
+    with open('sophos.conf') as f:
+        lines = [line.strip() for line in f]
+
+    for x in lines:
+        if 'save_file_location' in x:
+            try:
+                save_file_location = x.split(' = ')[1]
+                log_file_name = save_file_location + 'Sophos_alerts'
+
+            except:
+                log_file_name = 'Sophos_alerts'
+
+    log_file_exists = exists('../Sophos_Logs.log')
+    if log_file_exists is True:
+        pass
+    if log_file_exists is False:
+        note = 'New Log File Created'
+        sf.log_add(note, log_from, True)
+
+    export_file = exists(log_file_name)
+    alerts = sf.alerts()
+    note = 'Pulling Sophos Alerts'
+    message = sf.log_add(note, log_from, False)
+    print(message)
+    alerts = alerts['items']
+
+    if export_file is True:
+        sf.alert_add_data(alerts,log_file_name,True)
+
+    if export_file is False:
+        sf.alert_add_data(alerts, log_file_name, False)
 
 
 def run():

@@ -378,7 +378,7 @@ def update(eid):
     request = requests.post(requestUrl, headers=requestHeaders, json=requestBody)
     return request.json()
 
-def add_data(events,filename):
+def add_data_json(events,filename):
 
     log_from = filename.split('_')[0]
     log_from = log_from.capitalize()
@@ -419,6 +419,90 @@ def add_data(events,filename):
     note = new_alert_id_count + ' new logs added'
     full_note = log_add(note,log_from,False)
     print(full_note)
+
+def alert_add_data(alerts,logfile,newfile):
+
+    if newfile is True:
+        new_alert_id_count = []
+        events_list = []
+        for x in alerts:
+            alert_id = x['id']
+            allowedActions = x['allowedActions']
+            allowedActions = ",".join(allowedActions)
+            description = x['description']
+            groupKey = x['groupKey']
+            product = x['product']
+            raisedAt = x['raisedAt']
+            severity = x['severity']
+            eventType = x['type']
+
+            event_line = '[Timestamp: ' + raisedAt + '] ' + '[AlertID: ' + alert_id + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[EventType: ' + eventType + '] ' + '[AllowedActions: {' + allowedActions + '}] ' + '[Product: ' + product + '] ' + '[GroupKey: ' + groupKey + ']'
+            events_list.append(event_line)
+
+            new_alert_id_count = new_alert_id_count + 1
+            note = 'Alert ID: ' + alert_id + ' raised at ' + raisedAt + ' added. Description: ' + description
+            message = sf.log_add(note, log_from, True)
+            print(message)
+
+        with open(logfile, 'w') as f:
+            for x in events_list:
+                f.write(x + '\n')
+            f.close()
+
+        note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
+        message = sf.log_add(note, log_from, False)
+        print(message)
+
+    if newfile is False:
+        today = datetime.now()
+        today = now.strftime('%Y-%m-%d')
+
+        with open(logfile, 'r') as f:
+            current_alerts = [line.strip() for line in f]
+
+        alert_id_list = []
+        for x in current_alerts:
+            alert_id = x.split('AlertID: ')[1].split(']')[0]
+            alert_id_list.append(alert_id)
+
+        new_alert_id_count = []
+        for x in alerts:
+            alert_id = x['id']
+            if alert_id in alert_id_list:
+                pass
+            else:
+                raisedAt = x['raisedAt']
+                yearMonthDate = raisedAt.split('T')[0]
+                if yearMonthDate >= today:
+                    alert_id = x['id']
+                    allowedActions = x['allowedActions']
+                    allowedActions = ",".join(allowedActions)
+                    description = x['description']
+                    groupKey = x['groupKey']
+                    product = x['product']
+                    raisedAt = x['raisedAt']
+                    severity = x['severity']
+                    eventType = x['type']
+
+                    event_line = '[Timestamp: ' + raisedAt + '] ' + '[AlertID: ' + alert_id + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[EventType: ' + eventType + '] ' + '[AllowedActions: {' + allowedActions + '}] ' + '[Product: ' + product + '] ' + '[GroupKey: ' + groupKey + ']'
+                    events_list.append(event_line)
+
+                    new_alert_id_count = new_alert_id_count + 1
+                    note = 'Alert ID: ' + alert_id + ' raised at ' + raisedAt + ' added. Description: ' + description
+                    message = sf.log_add(note, log_from, True)
+                    print(message)
+
+        with open(logfile, 'a') as f:
+            for x in events_list:
+                f.write(x + '\n')
+            f.close()
+
+        note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
+        message = sf.log_add(note, log_from, False)
+        print(message)
+
+
+
 
 def log_add(note,log_from,log):
     if log is True:
