@@ -52,7 +52,7 @@ def json_start():
         print(message)
 
 
-def txt_start()
+def txt_start():
     with open('sophos.conf') as f:
         lines = [line.strip() for line in f]
 
@@ -105,7 +105,7 @@ def run():
                 pull_time = x.split(' = ')[1]
                 pull_time = int(pull_time)
 
-        start()
+        txt_start()
         while pull_time >= 0:
             if pull_time == 0:
                 time_left = (str(pull_time) + ' seconds till next alerts pull')
