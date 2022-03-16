@@ -421,6 +421,7 @@ def add_data_json(events,filename):
     print(full_note)
 
 def alert_add_data(alerts,logfile,newfile):
+    log_from = 'Alerts'
 
     if newfile is True:
         new_alert_id_count = 0
