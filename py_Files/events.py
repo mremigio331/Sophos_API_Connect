@@ -51,7 +51,38 @@ def start():
         message = sf.log_add(note,log_from,False)
         print(message)
 
+def txt_start():
+    with open('sophos.conf') as f:
+        lines = [line.strip() for line in f]
 
+    for x in lines:
+        if 'save_file_location' in x:
+            try:
+                save_file_location = x.split(' = ')[1]
+                log_file_name = save_file_location + 'Sophos_Events'
+
+            except:
+                log_file_name = 'Sophos_Events'
+
+    log_file_exists = exists('../Sophos_Logs.log')
+    if log_file_exists is True:
+        pass
+    if log_file_exists is False:
+        note = 'New Log File Created'
+        sf.log_add(note, log_from, True)
+
+    export_file = exists(log_file_name)
+    events = sf.events()
+    note = 'Pulling Sophos Events'
+    message = sf.log_add(note, log_from, False)
+    print(message)
+    events = events['items']
+
+    if export_file is True:
+        sf.events_add_data(events,log_file_name,False)
+
+    if export_file is False:
+        sf.events_add_data(events, log_file_name, True)
 
 def run():
     with open('sophos.conf') as f:
@@ -72,7 +103,7 @@ def run():
                 pull_time = x.split(' = ')[1]
                 pull_time = int(pull_time)
 
-        start()
+        txt_start()
 
         while pull_time >= 0:
             if pull_time == 0:

@@ -425,7 +425,7 @@ def alert_add_data(alerts,logfile,newfile):
 
     if newfile is True:
         new_alert_id_count = 0
-        events_list = []
+        alert_list = []
         for x in alerts:
             alert_id = x['id']
             allowedActions = x['allowedActions']
@@ -435,10 +435,10 @@ def alert_add_data(alerts,logfile,newfile):
             product = x['product']
             raisedAt = x['raisedAt']
             severity = x['severity']
-            eventType = x['type']
+            alertType = x['type']
 
-            event_line = '[Timestamp: ' + raisedAt + '] ' + '[AlertID: ' + alert_id + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[EventType: ' + eventType + '] ' + '[AllowedActions: {' + allowedActions + '}] ' + '[Product: ' + product + '] ' + '[GroupKey: ' + groupKey + ']'
-            events_list.append(event_line)
+            alert_line = '[Timestamp: ' + raisedAt + '] ' + '[AlertID: ' + alert_id + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[AllowedActions: {' + allowedActions + '}] ' + '[Product: ' + product + '] ' + '[GroupKey: ' + groupKey + ']'
+            alert_list.append(event_line)
 
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + alert_id + ' raised at ' + raisedAt + ' added. Description: ' + description
@@ -446,7 +446,7 @@ def alert_add_data(alerts,logfile,newfile):
             print(message)
 
         with open(logfile, 'w') as f:
-            for x in events_list:
+            for x in alert_list:
                 f.write(x + '\n')
             f.close()
 
@@ -467,7 +467,7 @@ def alert_add_data(alerts,logfile,newfile):
             alert_id_list.append(alert_id)
 
         new_alert_id_count = 0
-        events_list = []
+        alert_list = []
         for x in alerts:
             alert_id = x['id']
             if alert_id in alert_id_list:
@@ -484,10 +484,10 @@ def alert_add_data(alerts,logfile,newfile):
                     product = x['product']
                     raisedAt = x['raisedAt']
                     severity = x['severity']
-                    eventType = x['type']
+                    alertType = x['type']
 
-                    event_line = '[Timestamp: ' + raisedAt + '] ' + '[AlertID: ' + alert_id + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[EventType: ' + eventType + '] ' + '[AllowedActions: {' + allowedActions + '}] ' + '[Product: ' + product + '] ' + '[GroupKey: ' + groupKey + ']'
-                    events_list.append(event_line)
+                    alert_line = '[Timestamp: ' + raisedAt + '] ' + '[AlertID: ' + alert_id + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[AllowedActions: {' + allowedActions + '}] ' + '[Product: ' + product + '] ' + '[GroupKey: ' + groupKey + ']'
+                    alert_list.append(event_line)
 
                     new_alert_id_count = new_alert_id_count + 1
                     note = 'Alert ID: ' + alert_id + ' raised at ' + raisedAt + ' added. Description: ' + description
@@ -495,7 +495,7 @@ def alert_add_data(alerts,logfile,newfile):
                     print(message)
 
         with open(logfile, 'a') as f:
-            for x in events_list:
+            for x in alert_list:
                 f.write(x + '\n')
             f.close()
 
@@ -503,7 +503,96 @@ def alert_add_data(alerts,logfile,newfile):
         message = log_add(note, log_from, False)
         print(message)
 
+def events_add_data(events,logfile,newfile):
+    log_from = 'Events'
 
+    if newfile is True:
+        today = datetime.now()
+        today = today.strftime('%Y-%m-%d')
+
+        new_event_id_count = 0
+        events_list = []
+
+        for x in events:
+            createdAt = x['created_at']
+            yearMonthDate = createdAt.split('T')[0]
+            if yearMonthDate >= today:
+                sourceInfo = x['source_info']
+                sourceInfo = str(sourceInfo)
+                customerID = x['customer_id']
+                severity = x['severity']
+                name = x['name']
+                location = x['location']
+                eventID = x['id']
+                eventType = x['type']
+                group = x['group']
+
+                event_line = '[Timestamp: ' + createdAt + '] ' + '[EventID: ' + eventID + '] ' + '[Severity: ' + severity + '] ' + '[Name: ' + name + '] ' + '[EventType: ' + eventType + '] ' + '[SourceInfo: ' + str(sourceInfo) + '] ' + '[Location: ' + location + '] ' + '[Group: ' + group + '] ' + '[CustomerID: ' + customerID + ']'
+                events_list.append(event_line)
+
+                new_event_id_count = new_event_id_count + 1
+                note = 'Event ID: ' + event_id + ' created at ' + createdAt + ' added. Name: ' + name
+                message = log_add(note, log_from, True)
+                print(message)
+
+        with open(logfile, 'w') as f:
+            for x in events_list:
+                f.write(x + '\n')
+            f.close()
+
+        note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
+        message = log_add(note, log_from, False)
+        print(message)
+
+    if newfile is False:
+        today = datetime.now()
+        today = today.strftime('%Y-%m-%d')
+
+        with open(logfile, 'r') as f:
+            current_events = [line.strip() for line in f]
+
+        event_id_list = []
+        for x in current_events:
+            event_id = x.split('EventID: ')[1].split(']')[0]
+            event_id_list.append(event_id)
+
+        new_event_id_count = 0
+        events_list = []
+
+        for x in events:
+            eventID = x['id']
+            if eventID in event_id_list:
+                pass
+            else:
+                createdAt = x['created_at']
+                yearMonthDate = createdAt.split('T')[0]
+                if yearMonthDate >= today:
+                    sourceInfo = x['source_info']
+                    sourceInfo = str(sourceInfo)
+                    customerID = x['customer_id']
+                    severity = x['severity']
+                    name = x['name']
+                    location = x['location']
+                    eventID = x['id']
+                    eventType = x['type']
+                    group = x['group']
+
+                    event_line = '[Timestamp: ' + createdAt + '] ' + '[EventID: ' + eventID + '] ' + '[Severity: ' + severity + '] ' + '[Name: ' + name + '] ' + '[EventType: ' + eventType + '] ' + '[SourceInfo: ' + str(sourceInfo) + '] ' + '[Location: ' + location + '] ' + '[Group: ' + group + '] ' + '[CustomerID: ' + customerID + ']'
+                    events_list.append(event_line)
+
+                    new_event_id_count = new_event_id_count + 1
+                    note = 'Event ID: ' + event_id + ' created at ' + createdAt + ' added. Name: ' + name
+                    message = log_add(note, log_from, True)
+                    print(message)
+
+            with open(logfile, 'a') as f:
+                for x in events_list:
+                    f.write(x + '\n')
+                f.close()
+
+            note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
+            message = log_add(note, log_from, False)
+            print(message)
 
 
 def log_add(note,log_from,log):
