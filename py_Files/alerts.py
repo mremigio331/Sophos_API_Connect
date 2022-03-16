@@ -12,10 +12,10 @@ def json_start():
         if 'save_file_location' in x:
             try:
                 save_file_location = x.split(' = ')[1]
-                log_file_name = save_file_location + 'Sophos_alerts'
+                log_file_name = save_file_location + 'Sophos_AlertsJ'
 
             except:
-                log_file_name = 'Sophos_alerts'
+                log_file_name = 'Sophos_AlertsJ'
 
     txt_file_exists = exists('../Sophos_Logs.log')
     if txt_file_exists is True:
@@ -67,10 +67,10 @@ def txt_start():
         if 'save_file_location' in x:
             try:
                 save_file_location = x.split(' = ')[1]
-                log_file_name = save_file_location + 'Sophos_alerts'
+                log_file_name = save_file_location + 'Sophos_Alerts'
 
             except:
-                log_file_name = 'Sophos_alerts'
+                log_file_name = 'Sophos_Alerts'
 
     log_file_exists = exists('../Sophos_Logs.log')
     if log_file_exists is True:
