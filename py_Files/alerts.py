@@ -15,7 +15,7 @@ def json_start():
                 log_file_name = save_file_location + 'Sophos_alerts'
 
             except:
-                log_file_name = 'Sophos_alerts'nano
+                log_file_name = 'Sophos_alerts'
 
     txt_file_exists = exists('../Sophos_Logs.log')
     if txt_file_exists is True:
