@@ -87,10 +87,10 @@ def txt_start():
     alerts = alerts['items']
 
     if export_file is True:
-        sf.alert_add_data(alerts,log_file_name,True)
+        sf.alert_add_data(alerts,log_file_name,False)
 
     if export_file is False:
-        sf.alert_add_data(alerts, log_file_name, False)
+        sf.alert_add_data(alerts, log_file_name, True)
 
 
 def run():
