@@ -441,7 +441,7 @@ def alert_add_data(alerts,logfile,newfile):
 
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + alert_id + ' raised at ' + raisedAt + ' added. Description: ' + description
-            message = sf.log_add(note, log_from, True)
+            message = log_add(note, log_from, True)
             print(message)
 
         with open(logfile, 'w') as f:
@@ -450,7 +450,7 @@ def alert_add_data(alerts,logfile,newfile):
             f.close()
 
         note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        message = sf.log_add(note, log_from, False)
+        message = log_add(note, log_from, False)
         print(message)
 
     if newfile is False:
@@ -489,7 +489,7 @@ def alert_add_data(alerts,logfile,newfile):
 
                     new_alert_id_count = new_alert_id_count + 1
                     note = 'Alert ID: ' + alert_id + ' raised at ' + raisedAt + ' added. Description: ' + description
-                    message = sf.log_add(note, log_from, True)
+                    message = log_add(note, log_from, True)
                     print(message)
 
         with open(logfile, 'a') as f:
@@ -498,7 +498,7 @@ def alert_add_data(alerts,logfile,newfile):
             f.close()
 
         note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        message = sf.log_add(note, log_from, False)
+        message = log_add(note, log_from, False)
         print(message)
 
 
