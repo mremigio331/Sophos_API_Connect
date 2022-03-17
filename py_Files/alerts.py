@@ -74,7 +74,7 @@ def txt_start():
 
     log_file_exists = exists('../Sophos_Logs.log')
     if log_file_exists is True:
-        sf.log_add(note, log_from, False)
+        pass
     if log_file_exists is False:
         note = 'New Log File Created'
         sf.log_add(note, log_from, True)
@@ -87,10 +87,10 @@ def txt_start():
     alerts = alerts['items']
 
     if export_file is True:
-        sf.alert_add_data(alerts,log_file_name,False)
+        sf.alert_add_data(alerts,log_file_name, True)
 
     if export_file is False:
-        sf.alert_add_data(alerts, log_file_name, True)
+        sf.alert_add_data(alerts, log_file_name, False)
 
 
 def run():

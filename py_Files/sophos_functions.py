@@ -420,10 +420,10 @@ def add_data_json(events,filename):
     full_note = log_add(note,log_from,False)
     print(full_note)
 
-def alert_add_data(alerts,logfile,newfile):
+def alert_add_data(alerts,logfile,exist):
     log_from = 'Alerts'
 
-    if newfile is True:
+    if exist is False:
         new_alert_id_count = 0
         alert_list = []
         for x in alerts:
@@ -454,7 +454,7 @@ def alert_add_data(alerts,logfile,newfile):
         message = log_add(note, log_from, False)
         print(message)
 
-    if newfile is False:
+    if exist is True:
         today = datetime.now()
         today = today.strftime('%Y-%m-%d')
 
