@@ -73,8 +73,7 @@ def txt_start():
                 log_file_name = 'Sophos_Alerts'
 
     log_file_exists = exists('../Sophos_Logs.log')
-    if log_file_exists is True:
-        pass
+
     if log_file_exists is False:
         note = 'New Log File Created'
         sf.log_add(note, log_from, True)
