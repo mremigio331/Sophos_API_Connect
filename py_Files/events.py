@@ -64,7 +64,7 @@ def txt_start():
             except:
                 log_file_name = 'Sophos_Events'
 
-    log_file_exists = exists('../Sophos_Logs.log')
+    log_file_exists = exists('Sophos_Logs.log')
     if log_file_exists is True:
         pass
     if log_file_exists is False:

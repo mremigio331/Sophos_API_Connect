@@ -647,7 +647,7 @@ def events_add_data(events,logfile,newfile):
 
 def log_add(note,log_from,log):
     if log is True:
-        with open('../Sophos_Logs.log', 'a') as f:
+        with open('Sophos_Logs.log', 'a') as f:
             now = datetime.now()
             now = now.strftime('%d/%m/%Y %H:%M:%S')
             full_note = '[' + log_from + ' Log ' + now + '] ' + note
