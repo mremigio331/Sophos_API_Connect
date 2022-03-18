@@ -19,20 +19,31 @@ log_from = 'System'
 def alert_grab():
     alerts.run()
 
+
+
+
 def events_grab():
     events.run()
 
 if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
-    print('*** Pulling Just Alerts ***')
-    note = 'Initiating Sophos Alerts Pull'
-    sf.log_add(note, log_from,True)
-    alert_grab()
+    try:
+        print('*** Pulling Just Alerts ***')
+        note = 'Initiating Sophos Alerts Pull'
+        sf.log_add(note, log_from,True)
+        alert_grab()
+    except KeyboardInterrupt:
+        note = 'User Ended Alert Pull'
+        sf.log_add(note, log_from, True)
 
 if ('-e' in  sys.argv) or ('-events' in sys.argv):
-    print('*** Pulling Just Events ***')
-    note = 'Initiating Sophos Events Pull'
-    sf.log_add(note, log_from,True)
-    events_grab()
+    try:
+        print('*** Pulling Just Events ***')
+        note = 'Initiating Sophos Events Pull'
+        sf.log_add(note, log_from,True)
+        events_grab()
+    except KeyboardInterrupt:
+        note = 'User Ended Event Pull'
+        sf.log_add(note, log_from, True)
 
 if ('-h' in sys.argv) or ('-help' in sys.argv):
     print('*** Commands ***')
@@ -43,17 +54,21 @@ if ('-h' in sys.argv) or ('-help' in sys.argv):
     print('-w  -whoami       will attempt a whoami authentication')
 
 if ('-r' in  sys.argv) or ('-run' in sys.argv):
-    print('*** Pulling Both Alerts and Events ***')
-    note = 'Initiating Sophos Alerts and Events Pull'
-    sf.log_add(note,log_from,True)
-    if __name__ == '__main__':
-        freeze_support()
-        p1 = multiprocessing.Process(target=alert_grab)
-        p2 = multiprocessing.Process(target=events_grab)
-        p1.start()
-        p2.start()
-        p1.join()
-        p2.join()
+    try:
+        print('*** Pulling Both Alerts and Events ***')
+        note = 'Initiating Sophos Alerts and Events Pull'
+        sf.log_add(note,log_from,True)
+        if __name__ == '__main__':
+            freeze_support()
+            p1 = multiprocessing.Process(target=alert_grab)
+            p2 = multiprocessing.Process(target=events_grab)
+            p1.start()
+            p2.start()
+            p1.join()
+            p2.join()
+    except KeyboardInterrupt:
+        note = 'User Ended Alert and Event Pull'
+        sf.log_add(note, log_from, True)
 
 if ('-w' in sys.argv) or ('-whoami' in sys.argv):
     print('*** Attempting a WhoAmI Authentication Request ***')
