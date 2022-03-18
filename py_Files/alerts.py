@@ -8,21 +8,24 @@ global log_from
 log_from = 'Alerts'
 
 def json_start():
+    with open('sophos.conf') as f:
+        lines = [line.strip() for line in f]
+
     for x in lines:
+        if 'alerts_json_file_name' in x:
+            file_name = x.split(' = ')[1]
         if 'save_file_location' in x:
-            try:
-                save_file_location = x.split(' = ')[1]
-                log_file_name = save_file_location + 'Sophos_AlertsJ'
+            save_file_location = x.split(' = ')[1]
+        if 'log_file_name' in x:
+            log_file = x.split(' = ')[1]
+    log_file_name = save_file_location + file_name
 
-            except:
-                log_file_name = 'Sophos_AlertsJ'
+    log_file_exists = exists(log_file)
 
-    txt_file_exists = exists('../Sophos_Logs.log')
-    if txt_file_exists is True:
-        pass
-    if txt_file_exists is False:
+    if log_file_exists is False:
         note = 'New Log File Created'
         sf.log_add(note,log_from,True)
+
     json_file_exists = exists(log_file_name)
     alerts = sf.alerts()
     note = 'Pulling Sophos Alerts'
@@ -45,7 +48,7 @@ def json_start():
 
         for x in alerts:
             e = x['id']
-            t = x['raisedAt']
+            t = x['created_at']
             d = x['description']
 
             current_alert_data.append(x)
@@ -64,15 +67,13 @@ def txt_start():
         lines = [line.strip() for line in f]
 
     for x in lines:
+        if 'alerts_txt_file_name' in x:
+            file_name = x.split(' = ')[1]
         if 'save_file_location' in x:
-            try:
-                save_file_location = x.split(' = ')[1]
-                log_file_name = save_file_location + 'Sophos_Alerts'
+            save_file_location = x.split(' = ')[1]
+    log_file_name = save_file_location + file_name
 
-            except:
-                log_file_name = 'Sophos_Alerts'
-
-    log_file_exists = exists('Sophos_Logs.log')
+    log_file_exists = exists(log_file)
 
     if log_file_exists is False:
         note = 'New Log File Created'
@@ -99,7 +100,13 @@ def run():
     for x in lines:
         if 'run' in x:
             status = x.split(' = ')[1]
-            status = bool(run)
+            status = bool(status)
+        if 'txt_file' in x:
+            txt_file = x.split(' = ')[1]
+            txt_file = bool(txt_file)
+        if 'json_file' in x:
+            json_file = x.split(' = ')[1]
+            json_file = bool(json_file)
 
     while status is True:
 
@@ -110,8 +117,15 @@ def run():
             if 'pull_time' in x:
                 pull_time = x.split(' = ')[1]
                 pull_time = int(pull_time)
+            if 'run' in x:
+                status = x.split(' = ')[1]
+                status = bool(status)
 
-        txt_start()
+        if txt_file is True:
+            txt_start()
+        if json_file is True:
+            json_start()
+
         while pull_time >= 0:
             if pull_time == 0:
                 time_left = (str(pull_time) + ' seconds till next alerts pull')

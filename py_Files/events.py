@@ -7,15 +7,23 @@ import sys
 global log_from
 log_from = 'Events'
 
-def start():
-    log_file_name = 'Sophos_Events'
+def json_start():
+    with open('sophos.conf') as f:
+        lines = [line.strip() for line in f]
 
-    txt_file_exists = exists('Sophos_Logs.log')
-    if txt_file_exists is True:
-        pass
-    if txt_file_exists is False:
+    for x in lines:
+        if 'events_json_file_name' in x:
+            file_name = x.split(' = ')[1]
+        if 'save_file_location' in x:
+            save_file_location = x.split(' = ')[1]
+    log_file_name = save_file_location + file_name
+
+    log_file_exists = exists(log_file)
+
+    if log_file_exists is False:
         note = 'New Log File Created'
-        sf.log_add(note,log_from,True)
+        sf.log_add(note, log_from, True)
+
     json_file_exists = exists(log_file_name)
     events = sf.events()
     note = 'Pulling Sophos Events'
@@ -43,11 +51,11 @@ def start():
 
             current_alert_data.append(x)
             new_alert_id_count = new_alert_id_count + 1
-            note = 'Alert ID: ' + e + ' created at ' + t + ' added. Description: ' + d
+            note = 'Event ID: ' + e + ' created at ' + t + ' added. Description: ' + d
             message = sf.log_add(note, log_from,True)
             print(message)
 
-        note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
+        note = 'Added ' + str(new_alert_id_count) + ' new Event IDs'
         message = sf.log_add(note,log_from,False)
         print(message)
 
@@ -56,17 +64,14 @@ def txt_start():
         lines = [line.strip() for line in f]
 
     for x in lines:
+        if 'events_txt_file_name' in x:
+            file_name = x.split(' = ')[1]
         if 'save_file_location' in x:
-            try:
-                save_file_location = x.split(' = ')[1]
-                log_file_name = save_file_location + 'Sophos_Events'
+            save_file_location = x.split(' = ')[1]
+    log_file_name = save_file_location + file_name
 
-            except:
-                log_file_name = 'Sophos_Events'
+    log_file_exists = exists(log_file)
 
-    log_file_exists = exists('Sophos_Logs.log')
-    if log_file_exists is True:
-        pass
     if log_file_exists is False:
         note = 'New Log File Created'
         sf.log_add(note, log_from, True)
@@ -91,7 +96,13 @@ def run():
     for x in lines:
         if 'run' in x:
             status = x.split(' = ')[1]
-            status = bool(run)
+            status = bool(status)
+        if 'txt_file' in x:
+            txt_file = x.split(' = ')[1]
+            txt_file = bool(txt_file)
+        if 'json_file' in x:
+            json_file = x.split(' = ')[1]
+            json_file = bool(json_file)
 
     while status is True:
 
@@ -102,8 +113,14 @@ def run():
             if 'pull_time' in x:
                 pull_time = x.split(' = ')[1]
                 pull_time = int(pull_time)
+            if 'run' in x:
+                status = x.split(' = ')[1]
+                status = bool(status)
 
-        txt_start()
+        if txt_file is True:
+            txt_start()
+        if json_file is True:
+            json_start()
 
         while pull_time >= 0:
             if pull_time == 0:
