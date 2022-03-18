@@ -34,7 +34,7 @@ def json_start():
     events = events['items']
 
     if json_file_exists is True:
-        sf.add_data(events,log_file_name)
+        sf.add_data_json(events,log_file_name)
 
     if json_file_exists is False:
         with open(log_file_name, 'w') as outfile:
