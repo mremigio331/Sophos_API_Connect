@@ -1,4 +1,4 @@
-import os
+from os.path import exists
 import json
 import urllib
 import urllib.parse
@@ -640,6 +640,19 @@ def events_add_data(events,logfile,newfile):
 
 
 def log_add(note,log_from,log):
+    with open('sophos.conf') as f:
+        lines = [line.strip() for line in f]
+
+    for x in lines:
+        if 'log_file_name' in x:
+            log_file = x.split('=')[1].strip()
+
+    log_file_exists = exists(log_file)
+
+    if log_file_exists is False:
+        note = 'New Log File Created'
+        sf.log_add(note, log_from, True)
+
     if log is True:
         with open('Sophos_Logs.log', 'a') as f:
             now = datetime.now()

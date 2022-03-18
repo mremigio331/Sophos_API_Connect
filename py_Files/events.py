@@ -16,16 +16,8 @@ def json_start():
             file_name = x.split('=')[1].strip()
         if 'save_file_location' in x:
             save_file_location = x.split('=')[1].strip()
-        if 'log_file_name' in x:
-            log_file = x.split('=')[1].strip()
 
     log_file_name = save_file_location + file_name
-
-    log_file_exists = exists(log_file)
-
-    if log_file_exists is False:
-        note = 'New Log File Created'
-        sf.log_add(note, log_from, True)
 
     json_file_exists = exists(log_file_name)
     events = sf.events(False)
@@ -71,15 +63,8 @@ def txt_start():
             file_name = x.split('=')[1].strip()
         if 'save_file_location' in x:
             save_file_location = x.split('=')[1].strip()
-        if 'log_file_name' in x:
-            log_file = x.split('=')[1].strip()
+
     log_file_name = save_file_location + file_name
-
-    log_file_exists = exists(log_file)
-
-    if log_file_exists is False:
-        note = 'New Log File Created'
-        sf.log_add(note, log_from, True)
 
     export_file = exists(log_file_name)
     events = sf.events(False)
