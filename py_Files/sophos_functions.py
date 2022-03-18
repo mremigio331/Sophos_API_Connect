@@ -138,7 +138,6 @@ def alerts(timespan):
         tenant_id = info['id']
         region = (info['apiHosts']['dataRegion'])
         requestUrl = region + '/siem/v1/alerts?limit=1000'  # pulls last 1000 alerts
-        print(requestUrl)
 
         requestHeaders = {
             "X-Tenant-ID": tenant_id,
@@ -158,7 +157,6 @@ def alerts(timespan):
         tenant_id = info['id']
         region = (info['apiHosts']['dataRegion'])
         requestUrl = region + '/siem/v1/alerts?limit=1000&from_date' + str(unix_time)
-        print(requestUrl)
 
         requestHeaders = {
             "X-Tenant-ID": tenant_id,
@@ -195,7 +193,7 @@ def update_alert(action,alert_id):
 
     return request.json() # will a dict stating the id, the action chosen, the result of the action, the time requested, and the time completed.
 
-def events():
+def events(timespan):
     """
     events will grab the events from sophos
     timespan(bool) will identify how much data will be puulled
