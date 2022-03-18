@@ -638,6 +638,9 @@ def events_add_data(events,logfile,newfile):
         message = log_add(note, log_from, False)
         print(message)
 
+def new_log():
+    with open('Sophos_Logs.log', 'w') as f:
+        f.close()
 
 def log_add(note,log_from,log):
     with open('sophos.conf') as f:
@@ -650,8 +653,9 @@ def log_add(note,log_from,log):
     log_file_exists = exists(log_file)
 
     if log_file_exists is False:
+        new_log()
         note = 'New Log File Created'
-        sf.log_add(note, log_from, True)
+        log_add(note, log_from, True)
 
     if log is True:
         with open('Sophos_Logs.log', 'a') as f:
@@ -662,6 +666,7 @@ def log_add(note,log_from,log):
             f.write(full_note + '\n')
             f.close()
             return full_note
+
     if log is False:
         now = datetime.now()
         now = now.strftime('%d/%m/%Y %H:%M:%S')
