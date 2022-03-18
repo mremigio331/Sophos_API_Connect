@@ -27,7 +27,7 @@ def json_start():
         sf.log_add(note,log_from,True)
 
     json_file_exists = exists(log_file_name)
-    alerts = sf.alerts()
+    alerts = sf.alerts(False)
     note = 'Pulling Sophos Alerts'
     message = sf.log_add(note,log_from,False)
     print(message)
