@@ -6,13 +6,15 @@ if '/' in cwd:
     os.chdir(mvwd)
 
 import multiprocessing
-from multiprocessing import Process, Pool, Manager, freeze_support
+from multiprocessing import freeze_support
 sys.path.append('py_Files/')
 import alerts
 import events
 import sophos_functions as sf
 
 
+global log_from
+log_from = System
 
 def alert_grab():
     alerts.run()
@@ -23,13 +25,13 @@ def events_grab():
 if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
     print('*** Pulling Just Alerts ***')
     note = 'Initiating Sophos Alerts Pull'
-    sf.log_add(note, 'System',True)
+    sf.log_add(note, log_from,True)
     alert_grab()
 
 if ('-e' in  sys.argv) or ('-events' in sys.argv):
     print('*** Pulling Just Events ***')
     note = 'Initiating Sophos Events Pull'
-    sf.log_add(note, 'System',True)
+    sf.log_add(note, log_from,True)
     events_grab()
 
 if ('-h' in sys.argv) or ('-help' in sys.argv):
@@ -43,7 +45,7 @@ if ('-h' in sys.argv) or ('-help' in sys.argv):
 if ('-r' in  sys.argv) or ('-run' in sys.argv):
     print('*** Pulling Both Alerts and Events ***')
     note = 'Initiating Sophos Alerts and Events Pull'
-    sf.log_add(note,'System',True)
+    sf.log_add(note,log_from,True)
     if __name__ == '__main__':
         freeze_support()
         p1 = multiprocessing.Process(target=alert_grab)

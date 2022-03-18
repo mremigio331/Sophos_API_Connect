@@ -129,9 +129,20 @@ def run():
                 json_file = sf.bool_return(json_file)
 
         if txt_file is True:
-            txt_start()
+            try:
+                txt_start()
+            except Exception as err:
+                error = err
+                note = 'ERROR: ' + error
+                sf.log_add(note, log_from, True)
+
         if json_file is True:
-            json_start()
+            try:
+                json_start()
+            except Exception as err:
+                error = err
+                note = 'ERROR: ' + error
+                sf.log_add(note, log_from, True)
 
         while pull_time >= 0:
             if pull_time == 0:

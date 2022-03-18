@@ -1,4 +1,3 @@
-import sys
 import os
 import json
 import urllib
@@ -7,9 +6,6 @@ import urllib.request
 import requests
 from datetime import datetime, timedelta
 import time
-
-global pwd
-pwd = os.getcwd()
 
 def api_request(url, method='GET', params={}, headers={}, body=None, is_json=True):
     full_url = url
