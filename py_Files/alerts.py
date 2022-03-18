@@ -123,6 +123,14 @@ def run():
             if 'run' in x:
                 status = x.split(' = ')[1]
                 status = bool(status)
+            if 'txt_file' in x:
+                txt_file = x.split(' = ')[1]
+                txt_file = bool(txt_file)
+                print(txt_file)
+            if 'json_file' in x:
+                json_file = x.split(' = ')[1]
+                json_file = bool(json_file)
+                print(json_file)
 
         if txt_file is True:
             txt_start()
