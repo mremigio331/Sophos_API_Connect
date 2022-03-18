@@ -157,7 +157,7 @@ def alerts(timespan):
         info = whoami()  # grabs the x-tenant-id and data region
         tenant_id = info['id']
         region = (info['apiHosts']['dataRegion'])
-        requestUrl = region + '/siem/v1/alerts?from_date' + str(unix_time)
+        requestUrl = region + '/siem/v1/alerts?limit=1000&from_date' + str(unix_time)
         print(requestUrl)
 
         requestHeaders = {

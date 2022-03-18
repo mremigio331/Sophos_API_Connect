@@ -79,7 +79,7 @@ def txt_start():
         sf.log_add(note, log_from, True)
 
     export_file = exists(log_file_name)
-    alerts = sf.alerts()
+    alerts = sf.alerts(False)
     note = 'Pulling Sophos Alerts'
     message = sf.log_add(note, log_from, False)
     print(message)
