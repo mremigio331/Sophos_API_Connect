@@ -448,7 +448,7 @@ def add_data_json(events,filename):
             t = x['created_at']
             d = x['name']
         except:
-            t = x['raisedAt']
+            t = x['created_at']
             d = x['description']
 
         if e in current_alert_ids:
