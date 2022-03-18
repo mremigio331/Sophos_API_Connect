@@ -16,6 +16,8 @@ def json_start():
             file_name = x.split('=')[1].strip()
         if 'save_file_location' in x:
             save_file_location = x.split('=')[1].strip()
+        if 'log_file_name' in x:
+            log_file = x.split('=')[1].strip()
     log_file_name = save_file_location + file_name
 
     log_file_exists = exists(log_file)
@@ -68,6 +70,8 @@ def txt_start():
             file_name = x.split('=')[1].strip()
         if 'save_file_location' in x:
             save_file_location = x.split('=')[1].strip()
+        if 'log_file_name' in x:
+            log_file = x.split('=')[1].strip()
     log_file_name = save_file_location + file_name
 
     log_file_exists = exists(log_file)
