@@ -8,7 +8,7 @@ global log_from
 log_from = 'Events'
 
 def start():
-    log_file_name = '/var/log/sophos_events'
+    log_file_name = 'Sophos_Events'
 
     txt_file_exists = exists('Sophos_Logs.log')
     if txt_file_exists is True:
@@ -72,7 +72,7 @@ def txt_start():
         sf.log_add(note, log_from, True)
 
     export_file = exists(log_file_name)
-    events = sf.events()
+    events = sf.events(False)
     note = 'Pulling Sophos Events'
     message = sf.log_add(note, log_from, False)
     print(message)
