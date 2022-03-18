@@ -639,7 +639,7 @@ def events_add_data(events,logfile,newfile):
         print(message)
 
 def log_add(note,log_from,log):
-    with open('../sophos.conf') as f:
+    with open('sophos.conf') as f:
         lines = [line.strip() for line in f]
 
     for x in lines:
