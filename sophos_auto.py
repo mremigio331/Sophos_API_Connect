@@ -14,7 +14,7 @@ import sophos_functions as sf
 
 
 global log_from
-log_from = System
+log_from = 'System'
 
 def alert_grab():
     alerts.run()
