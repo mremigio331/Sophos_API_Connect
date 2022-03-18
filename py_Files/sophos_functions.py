@@ -5,7 +5,8 @@ import urllib
 import urllib.parse
 import urllib.request
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
 
 global pwd
 pwd = os.getcwd()
@@ -123,24 +124,52 @@ def whoami():
                 print(message)
                 success = success - 1
 
-def alerts():
+
+def alerts(timespan):
     """
     Pulls all alerts that have not been acknowledged yet.
+    timespan(bool) will identify how much data will be puulled
+        True will pull from the last 1000 entries
+        False will pull from the last 24 hours
     """
-    auth = auth_header_grab() # grabs the proper Authorization header
-    info = whoami() # grabs the x-tenant-id and data region
-    tenant_id = info['id']
-    region = (info['apiHosts']['dataRegion'])
-    requestUrl = region + '/common/v1/alerts'
+    if timespan is True:
+        auth = auth_header_grab()  # grabs the proper Authorization header
+        info = whoami()  # grabs the x-tenant-id and data region
+        tenant_id = info['id']
+        region = (info['apiHosts']['dataRegion'])
+        requestUrl = region + '/siem/v1/alerts?limit=1000'  # pulls last 1000 alerts
+        print(requestUrl)
 
-    requestHeaders = {
-        "X-Tenant-ID": tenant_id,
-        "Authorization": auth,
-        "Accept": "application/json"
-    }
-    request = requests.get(requestUrl, headers=requestHeaders)
+        requestHeaders = {
+            "X-Tenant-ID": tenant_id,
+            "Authorization": auth,
+            "Accept": "application/json"
+        }
+        request = requests.get(requestUrl, headers=requestHeaders)
 
-    return (request.json()) # returns a dic with every alert. Each alert will have the following keys: (['id', 'allowedActions', 'category', 'description', 'groupKey', 'managedAgent', 'product', 'raisedAt', 'severity', 'tenant', 'type'])
+        return (
+            request.json())  # returns a dic with every alert. Each alert will have the following keys: (['id', 'allowedActions', 'category', 'description', 'groupKey', 'managedAgent', 'product', 'raisedAt', 'severity', 'tenant', 'type'])
+
+    if timespan is False:
+        d = datetime.today() - timedelta(days=1)  # creates a datetime variable for yesterday at this time
+        unix_time = time.mktime(d.timetuple())  # creates a unix timestamp
+        auth = auth_header_grab()  # grabs the proper Authorization header
+        info = whoami()  # grabs the x-tenant-id and data region
+        tenant_id = info['id']
+        region = (info['apiHosts']['dataRegion'])
+        requestUrl = region + '/siem/v1/alerts?from_date' + str(unix_time)
+        print(requestUrl)
+
+        requestHeaders = {
+            "X-Tenant-ID": tenant_id,
+            "Authorization": auth,
+            "Accept": "application/json"
+        }
+        request = requests.get(requestUrl, headers=requestHeaders)
+
+        return (
+            request.json())  # returns a dic with every alert. Each alert will have the following keys: (['id', 'allowedActions', 'category', 'description', 'groupKey', 'managedAgent', 'product', 'raisedAt', 'severity', 'tenant', 'type'])
+
 
 def update_alert(action,alert_id):
     """
@@ -169,20 +198,42 @@ def update_alert(action,alert_id):
 def events():
     """
     events will grab the events from sophos
+    timespan(bool) will identify how much data will be puulled
+        True will pull from the last 1000 entries
+        False will pull from the last 24 hours
     """
-    auth = auth_header_grab()
-    info = whoami()
-    tenant_id = info['id']
-    region = (info['apiHosts']['dataRegion'])
-    requestUrl = region + '/siem/v1/events'
-    requestHeaders = {
-        'X-Tenant-ID': tenant_id,
-        'Authorization': auth,
-        'Accept': 'application/json'
-    }
-    request = requests.get(requestUrl, headers=requestHeaders)
+    if timespan is True:
+        auth = auth_header_grab()
+        info = whoami()
+        tenant_id = info['id']
+        region = (info['apiHosts']['dataRegion'])
+        requestUrl = region + '/siem/v1/events?limit=1000'
+        requestHeaders = {
+            'X-Tenant-ID': tenant_id,
+            'Authorization': auth,
+            'Accept': 'application/json'
+        }
+        request = requests.get(requestUrl, headers=requestHeaders)
 
-    return(request.json())
+        return(request.json())
+
+    if timespan is False:
+        d = datetime.today() - timedelta(days=1)  # creates a datetime variable for yesterday at this time
+        unix_time = time.mktime(d.timetuple())  # creates a unix timestamp
+        auth = auth_header_grab()
+        info = whoami()
+        tenant_id = info['id']
+        region = (info['apiHosts']['dataRegion'])
+        requestUrl = region + '/siem/v1/events?from_date' + str(unix_time)
+        requestHeaders = {
+            'X-Tenant-ID': tenant_id,
+            'Authorization': auth,
+            'Accept': 'application/json'
+        }
+        request = requests.get(requestUrl, headers=requestHeaders)
+
+        return (request.json())
+
 
 def health_status(query):
     """
@@ -427,21 +478,20 @@ def alert_add_data(alerts,logfile,exist):
         new_alert_id_count = 0
         alert_list = []
         for x in alerts:
-            alert_id = x['id']
-            allowedActions = x['allowedActions']
-            allowedActions = ",".join(allowedActions)
-            description = x['description']
-            groupKey = x['groupKey']
-            product = x['product']
-            raisedAt = x['raisedAt']
+            createdAt = x['created_at']
             severity = x['severity']
+            alertID = x['id']
             alertType = x['type']
+            description = x['description']
+            data = x['data']
+            data = str(data)
+            location = x['location']
 
-            alert_line = '[Timestamp: ' + raisedAt + '] ' + '[AlertID: ' + alert_id + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[AllowedActions: {' + allowedActions + '}] ' + '[Product: ' + product + '] ' + '[GroupKey: ' + groupKey + ']'
+            alert_line = '[Timestamp: ' + createdAt + '] ' + '[AlertID: ' + alertID + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[Data: ' + data + '}] ' + '[Location: ' + location + ']'
             alert_list.append(alert_line)
 
             new_alert_id_count = new_alert_id_count + 1
-            note = 'Alert ID: ' + alert_id + ' raised at ' + raisedAt + ' added. Description: ' + description
+            note = 'Alert ID: ' + alertID + ' created at ' + createdAt + ' added. Description: ' + description
             message = log_add(note, log_from, True)
             print(message)
 
@@ -473,24 +523,23 @@ def alert_add_data(alerts,logfile,exist):
             if alert_id in alert_id_list:
                 pass
             else:
-                raisedAt = x['raisedAt']
-                yearMonthDate = raisedAt.split('T')[0]
+                createdAt = x['created_at']
+                yearMonthDate = createdAt.split('T')[0]
                 if yearMonthDate >= today:
-                    alert_id = x['id']
-                    allowedActions = x['allowedActions']
-                    allowedActions = ",".join(allowedActions)
-                    description = x['description']
-                    groupKey = x['groupKey']
-                    product = x['product']
-                    raisedAt = x['raisedAt']
+                    createdAt = x['created_at']
                     severity = x['severity']
+                    alertID = x['id']
                     alertType = x['type']
+                    description = x['description']
+                    data = x['data']
+                    data = str(data)
+                    location = x['location']
 
-                    alert_line = '[Timestamp: ' + raisedAt + '] ' + '[AlertID: ' + alert_id + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[AllowedActions: {' + allowedActions + '}] ' + '[Product: ' + product + '] ' + '[GroupKey: ' + groupKey + ']'
+                    alert_line = '[Timestamp: ' + createdAt + '] ' + '[AlertID: ' + alertID + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[Data: ' + data + '}] ' + '[Location: ' + location + ']'
                     alert_list.append(alert_line)
 
                     new_alert_id_count = new_alert_id_count + 1
-                    note = 'Alert ID: ' + alert_id + ' raised at ' + raisedAt + ' added. Description: ' + description
+                    note = 'Alert ID: ' + alertID + ' created at ' + createdAt + ' added. Description: ' + description
                     message = log_add(note, log_from, True)
                     print(message)
 
