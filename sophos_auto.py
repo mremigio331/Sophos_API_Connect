@@ -19,9 +19,6 @@ log_from = 'System'
 def alert_grab():
     alerts.run()
 
-
-
-
 def events_grab():
     events.run()
 
