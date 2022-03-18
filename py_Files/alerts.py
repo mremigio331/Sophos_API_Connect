@@ -104,10 +104,10 @@ def run():
         if 'run' in x:
             status = x.split(' = ')[1]
             status = sf.bool_return(status)
-        if 'txt_file' in x:
+        if 'txt_file_creation' in x:
             txt_file = x.split(' = ')[1]
             txt_file = sf.bool_return(txt_file)
-        if 'json_file' in x:
+        if 'json_file_creation' in x:
             json_file = x.split(' = ')[1]
             json_file = sf.bool_return(json_file)
 
@@ -123,6 +123,12 @@ def run():
             if 'run' in x:
                 status = x.split(' = ')[1]
                 status = sf.bool_return(status)
+            if 'txt_file_creation' in x:
+                txt_file = x.split(' = ')[1]
+                txt_file = sf.bool_return(txt_file)
+            if 'json_file_creation' in x:
+                json_file = x.split(' = ')[1]
+                json_file = sf.bool_return(json_file)
 
         if txt_file is True:
             txt_start()
