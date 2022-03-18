@@ -658,3 +658,9 @@ def log_add(note,log_from,log):
         now = now.strftime('%d/%m/%Y %H:%M:%S')
         full_note = '[' + log_from + ' Log ' + now + '] ' + note
         return full_note
+
+def bool_return(string):
+    if string == 'True':
+        return True
+    if string == 'False':
+        return False

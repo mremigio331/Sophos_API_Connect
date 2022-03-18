@@ -18,6 +18,7 @@ def json_start():
             save_file_location = x.split('=')[1].strip()
         if 'log_file_name' in x:
             log_file = x.split('=')[1].strip()
+
     log_file_name = save_file_location + file_name
 
     log_file_exists = exists(log_file)
@@ -100,13 +101,13 @@ def run():
     for x in lines:
         if 'run' in x:
             status = x.split(' = ')[1]
-            status = bool(status)
+            status = sf.bool_return(status)
         if 'txt_file' in x:
             txt_file = x.split(' = ')[1]
-            txt_file = bool(txt_file)
+            txt_file = sf.bool_return(txt_file)
         if 'json_file' in x:
             json_file = x.split(' = ')[1]
-            json_file = bool(json_file)
+            json_file = sf.bool_return(json_file)
 
     while status is True:
 
@@ -119,7 +120,7 @@ def run():
                 pull_time = int(pull_time)
             if 'run' in x:
                 status = x.split(' = ')[1]
-                status = bool(status)
+                status = sf.bool_return(status)
 
         if txt_file is True:
             txt_start()
