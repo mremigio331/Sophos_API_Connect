@@ -70,7 +70,10 @@ def txt_start():
         if 'alerts_txt_file_name' in x:
             file_name = x.split(' = ')[1]
         if 'save_file_location' in x:
-            save_file_location = x.split(' = ')[1]
+            save_file_location = x.split('=')[1].strip()
+        if 'log_file_name' in x:
+            log_file = x.split('=')[1].strip()
+
     log_file_name = save_file_location + file_name
 
     log_file_exists = exists(log_file)
