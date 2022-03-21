@@ -3,6 +3,7 @@ import urllib
 import urllib.parse
 import urllib.request
 import requests
+import common
 
 def api_request(url, method='GET', params={}, headers={}, body=None, is_json=True):
     full_url = url
@@ -36,14 +37,14 @@ def api_request(url, method='GET', params={}, headers={}, body=None, is_json=Tru
         if hasattr(e, 'reason'):
             reason = e.reason
             note = str('Failed to reach the server ' + str(reason))
-            sf.log_add(note, log_from, True)
+            common.log_add(note, log_from, True)
         elif hasattr(e, 'code'):
             code = e.code
             note = str('Server failed to fulfill the request ' + str(code))
-            sf.log_add(note, log_from, True)
+            common.log_add(note, log_from, True)
         else:
             note = str(e)
-            sf.log_add(note, log_from, True)
+            common.log_add(note, log_from, True)
 
     return json.loads(response_body)
 
@@ -103,7 +104,7 @@ def whoami():
             request = requests.get(requestUrl, headers=requestHeaders)
 
             note = 'WhoAmI Authentication Sucessfull'
-            full_note = log_add(note, 'System', False)
+            full_note = coommon.log_add(note, 'System', False)
             print(full_note)
 
             return (request.json()) # will return in a dict the X-Tenant-ID and the data region
@@ -112,14 +113,14 @@ def whoami():
 
             if success == 0:
                 note = 'WhoAmI Authentication TimedOut'
-                message = log_add(note, 'System', True)
+                message = common.log_add(note, 'System', True)
                 print(message)
                 success = success - 1
 
 
             else:
                 note = 'WhoAmI Authentication unsuccessful, attempting ' + str(success) + ' more attempts.'
-                message = log_add(note, 'System', True)
+                message = common.log_add(note, 'System', True)
                 print(message)
                 success = success - 1
 
