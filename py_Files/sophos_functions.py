@@ -485,7 +485,7 @@ def alert_add_data(alerts,logfile,exist):
             data = str(data)
             location = x['location']
 
-            alert_line = '[Timestamp: ' + createdAt + '] ' + '[AlertID: ' + alertID + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[Data: ' + data + '}] ' + '[Location: ' + location + ']'
+            alert_line = '[Timestamp: ' + createdAt + '] ' + '[AlertID: ' + alertID + '] ' + '[Severity: ' + severity + '] ' + '[IP: ]' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[Data: ' + data + '}] ' + '[Location: ' + location + ']'
             alert_list.append(alert_line)
 
             new_alert_id_count = new_alert_id_count + 1
@@ -533,7 +533,7 @@ def alert_add_data(alerts,logfile,exist):
                     data = str(data)
                     location = x['location']
 
-                    alert_line = '[Timestamp: ' + createdAt + '] ' + '[AlertID: ' + alertID + '] ' + '[Severity: ' + severity + '] ' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[Data: ' + data + '}] ' + '[Location: ' + location + ']'
+                    alert_line = '[Timestamp: ' + createdAt + '] ' + '[AlertID: ' + alertID + '] ' + '[Severity: ' + severity + '] ' + '[IP: ]' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[Data: ' + data + '}] ' + '[Location: ' + location + ']'
                     alert_list.append(alert_line)
 
                     new_alert_id_count = new_alert_id_count + 1
@@ -574,7 +574,7 @@ def events_add_data(events,logfile,newfile):
                 eventType = x['type']
                 group = x['group']
 
-                event_line = '[Timestamp: ' + createdAt + '] ' + '[EventID: ' + eventID + '] ' + '[Severity: ' + severity + '] ' + '[Name: ' + name + '] ' + '[EventType: ' + eventType + '] ' + '[SourceInfo: ' + str(sourceInfo) + '] ' + '[Location: ' + location + '] ' + '[Group: ' + group + '] ' + '[CustomerID: ' + customerID + ']'
+                event_line = '[Timestamp: ' + createdAt + '] ' + '[EventID: ' + eventID + '] ' + '[Severity: ' + severity + '] ' + '[Name: ' + name + '] ' + '[IP: ]' + '[EventType: ' + eventType + '] ' + '[SourceInfo: ' + str(sourceInfo) + '] ' + '[Location: ' + location + '] ' + '[Group: ' + group + '] ' + '[CustomerID: ' + customerID + ']'
                 events_list.append(event_line)
 
                 new_event_id_count = new_event_id_count + 1
@@ -623,8 +623,9 @@ def events_add_data(events,logfile,newfile):
                     eventID = x['id']
                     eventType = x['type']
                     group = x['group']
+                    ip = ' '
 
-                    event_line = '[Timestamp: ' + createdAt + '] ' + '[EventID: ' + eventID + '] ' + '[Severity: ' + severity + '] ' + '[Name: ' + name + '] ' + '[EventType: ' + eventType + '] ' + '[SourceInfo: ' + str(sourceInfo) + '] ' + '[Location: ' + location + '] ' + '[Group: ' + group + '] ' + '[CustomerID: ' + customerID + ']'
+                    event_line = '[Timestamp: ' + createdAt + '] ' + '[EventID: ' + eventID + '] ' + '[Severity: ' + severity + '] ' + '[Name: ' + name + '] ' + '[IP: ]' + '[EventType: ' + eventType + '] ' + '[SourceInfo: ' + str(sourceInfo) + '] ' + '[Location: ' + location + '] ' + '[Group: ' + group + '] ' + '[CustomerID: ' + customerID + ']'
                     events_list.append(event_line)
 
                     new_event_id_count = new_event_id_count + 1
