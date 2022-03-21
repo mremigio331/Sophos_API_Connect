@@ -42,7 +42,10 @@ def api_request(url, method='GET', params={}, headers={}, body=None, is_json=Tru
         elif hasattr(e, 'code'):
             note = ('Server failed to fulfill the request', e.code)
             sf.log_add(note, log_from, True)
-        return None
+        else:
+            note = e
+            sf.log_add(note, log_from, True)
+            
     return json.loads(response_body)
 
 def authenticate(client_id, client_secret):

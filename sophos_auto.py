@@ -26,7 +26,7 @@ def alert_grab():
 def events_grab():
     try:
         events.run()
-        
+
     except Exception as Argument:
             note = (str(Argument))
             sf.log_add(note, log_from, True)
