@@ -43,7 +43,7 @@ def api_request(url, method='GET', params={}, headers={}, body=None, is_json=Tru
             note = ('Server failed to fulfill the request', e.code)
             sf.log_add(note, log_from, True)
         else:
-            note = str(e)
+            note = 'Error connecting to server'
             sf.log_add(note, log_from, True)
 
     return json.loads(response_body)
