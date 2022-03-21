@@ -36,11 +36,12 @@ def api_request(url, method='GET', params={}, headers={}, body=None, is_json=Tru
         with urllib.request.urlopen(req) as response:
             response_body = response.read()
     except urllib.error.URLError as e:
-        #print(e)
         if hasattr(e, 'reason'):
-            print('Failed to reach the server', e.reason)
+            note = ('Failed to reach the server', e.reason)
+            sf.log_add(note, log_from, True)
         elif hasattr(e, 'code'):
-            print('Server failed to fulfill the request', e.code)
+            note = ('Server failed to fulfill the request', e.code)
+            sf.log_add(note, log_from, True)
         return None
     return json.loads(response_body)
 

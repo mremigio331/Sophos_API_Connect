@@ -17,11 +17,19 @@ global log_from
 log_from = 'System'
 
 def alert_grab():
-    alerts.run()
+    try:
+        alerts.run()
 
+    except Exception as Argument:
+            note = (str(Argument))
+            sf.log_add(note, log_from, True)
 def events_grab():
-    events.run()
-
+    try:
+        events.run()
+        
+    except Exception as Argument:
+            note = (str(Argument))
+            sf.log_add(note, log_from, True)
 if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
     try:
         print('*** Pulling Just Alerts ***')
