@@ -4,13 +4,13 @@ cwd = sys.argv[0]
 if '/' in cwd:
     mvwd = cwd.split('sophos_auto.py')[0]
     os.chdir(mvwd)
-import logging
 import multiprocessing
 from multiprocessing import freeze_support
 sys.path.append('py_Files/')
 import alerts
+import authenticate as cate
 import events
-import sophos_functions as sf
+import common
 
 
 global log_from
@@ -19,36 +19,36 @@ log_from = 'System'
 def alert_grab():
     try:
         alerts.run()
-
     except Exception as Argument:
             note = (str(Argument))
-            sf.log_add(note, log_from, True)
+            common.log_add(note, log_from, True)
+
 def events_grab():
     try:
         events.run()
-
     except Exception as Argument:
             note = (str(Argument))
-            sf.log_add(note, log_from, True)
+            common.log_add(note, log_from, True)
+
 if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
     try:
         print('*** Pulling Just Alerts ***')
         note = 'Initiating Sophos Alerts Pull'
-        sf.log_add(note, log_from,True)
+        common.log_add(note, log_from,True)
         alert_grab()
     except Exception as Argument:
         note = (str(Argument))
-        sf.log_add(note, log_from, True)
+        common.log_add(note, log_from, True)
 
 if ('-e' in  sys.argv) or ('-events' in sys.argv):
     try:
         print('*** Pulling Just Events ***')
         note = 'Initiating Sophos Events Pull'
-        sf.log_add(note, log_from,True)
+        common.log_add(note, log_from,True)
         events_grab()
     except Exception as Argument:
         note = (str(Argument))
-        sf.log_add(note, log_from, True)
+        common.log_add(note, log_from, True)
 
 if ('-h' in sys.argv) or ('-help' in sys.argv):
     print('*** Commands ***')
@@ -58,11 +58,11 @@ if ('-h' in sys.argv) or ('-help' in sys.argv):
     print('-r  -run          will run both the alerts and events Sophos pulls')
     print('-w  -whoami       will attempt a whoami authentication')
 
-if ('-r' in  sys.argv) or ('-run' in sys.argv):
+if ('-r' in sys.argv) or ('-run' in sys.argv):
     try:
         print('*** Pulling Both Alerts and Events ***')
         note = 'Initiating Sophos Alerts and Events Pull'
-        sf.log_add(note,log_from,True)
+        common.log_add(note,log_from,True)
         if __name__ == '__main__':
             freeze_support()
             p1 = multiprocessing.Process(target=alert_grab)
@@ -73,10 +73,10 @@ if ('-r' in  sys.argv) or ('-run' in sys.argv):
             p2.join()
     except Exception as Argument:
             note = (str(Argument))
-            sf.log_add(note, log_from, True)
+            common.log_add(note, log_from, True)
 
 if ('-w' in sys.argv) or ('-whoami' in sys.argv):
     print('*** Attempting a WhoAmI Authentication Request ***')
-    sf.whoami()
+    cate.whoami()
 
 
