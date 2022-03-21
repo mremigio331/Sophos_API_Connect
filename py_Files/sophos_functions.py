@@ -37,10 +37,12 @@ def api_request(url, method='GET', params={}, headers={}, body=None, is_json=Tru
             response_body = response.read()
     except urllib.error.URLError as e:
         if hasattr(e, 'reason'):
-            note = str('Failed to reach the server', e.reason)
+            reason = e.reason
+            note = str('Failed to reach the server ' + reason)
             sf.log_add(note, log_from, True)
         elif hasattr(e, 'code'):
-            note = str('Server failed to fulfill the request', e.code)
+            code = e.code
+            note = str('Server failed to fulfill the request ' + code)
             sf.log_add(note, log_from, True)
         else:
             note = str(e)
