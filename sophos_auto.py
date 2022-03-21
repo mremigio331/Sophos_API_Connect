@@ -4,7 +4,7 @@ cwd = sys.argv[0]
 if '/' in cwd:
     mvwd = cwd.split('sophos_auto.py')[0]
     os.chdir(mvwd)
-
+import logging
 import multiprocessing
 from multiprocessing import freeze_support
 sys.path.append('py_Files/')
@@ -28,8 +28,8 @@ if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
         note = 'Initiating Sophos Alerts Pull'
         sf.log_add(note, log_from,True)
         alert_grab()
-    except KeyboardInterrupt:
-        note = 'User Ended Alert Pull'
+    except Exception as Argument:
+        note = (str(Argument))
         sf.log_add(note, log_from, True)
 
 if ('-e' in  sys.argv) or ('-events' in sys.argv):
@@ -38,8 +38,8 @@ if ('-e' in  sys.argv) or ('-events' in sys.argv):
         note = 'Initiating Sophos Events Pull'
         sf.log_add(note, log_from,True)
         events_grab()
-    except KeyboardInterrupt:
-        note = 'User Ended Event Pull'
+    except Exception as Argument:
+        note = (str(Argument))
         sf.log_add(note, log_from, True)
 
 if ('-h' in sys.argv) or ('-help' in sys.argv):
@@ -63,9 +63,9 @@ if ('-r' in  sys.argv) or ('-run' in sys.argv):
             p2.start()
             p1.join()
             p2.join()
-    except KeyboardInterrupt:
-        note = 'User Ended Alert and Event Pull'
-        sf.log_add(note, log_from, True)
+    except Exception as Argument:
+            note = (str(Argument))
+            sf.log_add(note, log_from, True)
 
 if ('-w' in sys.argv) or ('-whoami' in sys.argv):
     print('*** Attempting a WhoAmI Authentication Request ***')
