@@ -5,8 +5,8 @@ import requests
 from datetime import datetime, timedelta
 import time
 
-import authenticate as cate
-import common
+import s_authenticate as cate
+import s_common as common
 
 
 global log_from

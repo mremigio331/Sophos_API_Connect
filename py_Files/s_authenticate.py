@@ -3,7 +3,7 @@ import urllib
 import urllib.parse
 import urllib.request
 import requests
-import common
+import s_common as common
 
 def api_request(url, method='GET', params={}, headers={}, body=None, is_json=True):
     full_url = url

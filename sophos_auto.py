@@ -7,10 +7,10 @@ if '/' in cwd:
 import multiprocessing
 from multiprocessing import freeze_support
 sys.path.append('py_Files/')
-import alerts
-import authenticate as cate
-import events
-import common
+import s_alerts as alerts
+import s_authenticate as cate
+import s_events as events
+import s_common as common
 
 
 global log_from
