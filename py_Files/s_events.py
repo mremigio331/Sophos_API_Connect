@@ -14,7 +14,7 @@ log_from = 'Events'
 
 def json_start():
     lines = common.config_load()
-
+    apple =
     for x in lines:
         if 'events_json_file_name' in x:
             file_name = x.split('=')[1].strip()

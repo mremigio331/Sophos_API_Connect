@@ -20,14 +20,14 @@ def alert_grab():
     try:
         alerts.run()
     except Exception as Argument:
-            note = (str(Argument))
+            note = 'ERROR ' + (str(Argument))
             common.log_add(note, log_from, True)
 
 def events_grab():
     try:
         events.run()
     except Exception as Argument:
-            note = (str(Argument))
+            note = 'ERROR ' + (str(Argument))
             common.log_add(note, log_from, True)
 
 if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
@@ -37,7 +37,7 @@ if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
         common.log_add(note, log_from,True)
         alert_grab()
     except Exception as Argument:
-        note = (str(Argument))
+        note = 'ERROR ' + (str(Argument))
         common.log_add(note, log_from, True)
 
 if ('-e' in  sys.argv) or ('-events' in sys.argv):
@@ -47,7 +47,7 @@ if ('-e' in  sys.argv) or ('-events' in sys.argv):
         common.log_add(note, log_from,True)
         events_grab()
     except Exception as Argument:
-        note = (str(Argument))
+        note = 'ERROR ' + (str(Argument))
         common.log_add(note, log_from, True)
 
 if ('-h' in sys.argv) or ('-help' in sys.argv):
@@ -72,7 +72,7 @@ if ('-r' in sys.argv) or ('-run' in sys.argv):
             p1.join()
             p2.join()
     except Exception as Argument:
-            note = (str(Argument))
+            note = 'ERROR ' + (str(Argument))
             common.log_add(note, log_from, True)
 
 if ('-w' in sys.argv) or ('-whoami' in sys.argv):
