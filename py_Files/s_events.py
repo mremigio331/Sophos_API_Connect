@@ -219,13 +219,13 @@ def run():
     for x in lines:
         if 'run' in x:
             status = x.split(' = ')[1]
-            status = sf.bool_return(status)
+            status = common.bool_return(status)
         if 'txt_file_creation' in x:
             txt_file = x.split(' = ')[1]
-            txt_file = sf.bool_return(txt_file)
+            txt_file = common.bool_return(txt_file)
         if 'json_file_creation' in x:
             json_file = x.split(' = ')[1]
-            json_file = sf.bool_return(json_file)
+            json_file = common.bool_return(json_file)
 
     while status is True:
 
