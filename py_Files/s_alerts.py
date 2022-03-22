@@ -139,7 +139,7 @@ def alert_actions(alert_id):
     request = requests.get(requestUrl, headers=requestHeaders)
 
     alert_info = request.json()
-    actions = alert_info['items']['allowedActions']
+    actions = alert_info['items']
     return actions
 
 def update_alert(action,alert_id):
