@@ -87,8 +87,8 @@ if ('-r' in sys.argv) or ('-run' in sys.argv):
             note = 'ERROR ' + e.__class__
             common.log_add(note, log_from, True)
     except KeyboardInterrupt as e:
-    note = 'ERROR ' + e.__class__
-    common.log_add(note, log_from, True)
+        note = 'ERROR ' + e.__class__
+        common.log_add(note, log_from, True)
 
 if ('-w' in sys.argv) or ('-whoami' in sys.argv):
     print('*** Attempting a WhoAmI Authentication Request ***')
