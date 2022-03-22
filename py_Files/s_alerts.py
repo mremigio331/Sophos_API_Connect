@@ -122,8 +122,25 @@ def alerts_grab(timespan):
         }
         request = requests.get(requestUrl, headers=requestHeaders)
 
-        return (
-            request.json())  # returns a dic with every alert. Each alert will have the following keys: (['id', 'allowedActions', 'category', 'description', 'groupKey', 'managedAgent', 'product', 'raisedAt', 'severity', 'tenant', 'type'])
+        return request.json()  # returns a dic with every alert. Each alert will have the following keys: (['id', 'allowedActions', 'category', 'description', 'groupKey', 'managedAgent', 'product', 'raisedAt', 'severity', 'tenant', 'type'])
+
+def alert_actions(alert_id):
+    auth = cate.auth_header_grab()  # grabs the proper Authorization header
+    info = cate.whoami()  # grabs the x-tenant-id and data region
+    tenant_id = info['id']
+    region = (info['apiHosts']['dataRegion'])
+    requestUrl = region + '/common/v1/alerts?ids=' + alert_id  # pulls the alert_id info
+
+    requestHeaders = {
+        "X-Tenant-ID": tenant_id,
+        "Authorization": auth,
+        "Accept": "application/json"
+    }
+    request = requests.get(requestUrl, headers=requestHeaders)
+
+    #alert_info = request.json()
+    #actions = alert_info
+    return request.json()
 
 def update_alert(action,alert_id):
     """
