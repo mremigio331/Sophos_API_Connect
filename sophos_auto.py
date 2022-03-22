@@ -1,12 +1,16 @@
 import sys
 import os
 cwd = sys.argv[0]
+
 if '/' in cwd:
     mvwd = cwd.split('sophos_auto.py')[0]
     os.chdir(mvwd)
+
 import multiprocessing
 from multiprocessing import freeze_support
+
 sys.path.append('py_Files/')
+
 import s_alerts as alerts
 import s_authenticate as cate
 import s_events as events
