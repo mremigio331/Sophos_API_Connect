@@ -5,6 +5,9 @@ import urllib.request
 import requests
 import s_common as common
 
+global log_from
+log_from = 'System'
+
 def api_request(url, method='GET', params={}, headers={}, body=None, is_json=True):
     full_url = url
     if params:
@@ -36,15 +39,15 @@ def api_request(url, method='GET', params={}, headers={}, body=None, is_json=Tru
     except urllib.error.URLError as e:
         if hasattr(e, 'reason'):
             reason = e.reason
-            note = str('Failed to reach the server ' + str(reason))
-            common.log_add(note, log_from, True)
+            note = str('ERROR: Failed to reach the server ' + str(reason))
+            common.log_add(note, log_from, 1)
         elif hasattr(e, 'code'):
             code = e.code
-            note = str('Server failed to fulfill the request ' + str(code))
-            common.log_add(note, log_from, True)
+            note = str('ERROR: Server failed to fulfill the request ' + str(code))
+            common.log_add(note, log_from, 1)
         else:
-            note = str(e)
-            common.log_add(note, log_from, True)
+            note = 'ERROR: ' + str(e)
+            common.log_add(note, log_from, 1)
 
     return json.loads(response_body)
 
@@ -84,7 +87,7 @@ def auth_header_grab():
 
     auth_header = token_type.title() + ' ' + access_token
 
-    return (auth_header)
+    return auth_header
 
 def whoami():
     """
@@ -104,7 +107,7 @@ def whoami():
             request = requests.get(requestUrl, headers=requestHeaders)
 
             note = 'WhoAmI Authentication Sucessfull'
-            full_note = common.log_add(note, 'System', False)
+            full_note = common.log_add(note, log_from, 4)
             print(full_note)
 
             return (request.json()) # will return in a dict the X-Tenant-ID and the data region
@@ -112,15 +115,15 @@ def whoami():
         except:
 
             if success == 0:
-                note = 'WhoAmI Authentication TimedOut'
-                message = common.log_add(note, 'System', True)
+                note = 'ERROR: WhoAmI Authentication TimedOut'
+                message = common.log_add(note, log_from, 1)
                 print(message)
                 success = success - 1
 
 
             else:
-                note = 'WhoAmI Authentication unsuccessful, attempting ' + str(success) + ' more attempts.'
-                message = common.log_add(note, 'System', True)
+                note = 'ERROR: WhoAmI Authentication unsuccessful, attempting ' + str(success) + ' more attempts.'
+                message = common.log_add(note, log_from, 1)
                 print(message)
                 success = success - 1
 

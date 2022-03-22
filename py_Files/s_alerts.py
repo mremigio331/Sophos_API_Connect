@@ -37,7 +37,7 @@ def json_start():
         with open(log_file_name, 'w') as outfile:
             json.dump(alerts, outfile)
             note = 'No alerts json file exited, created a new alerts json file'
-            common.log_add(note,log_from,True)
+            common.log_add(note,log_from,2)
             print('File does not exist')
 
         new_alert_id_count = 0
@@ -51,11 +51,11 @@ def json_start():
             current_alert_data.append(x)
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + e + ' created at ' + t + ' added. Description: ' + d
-            message = common.log_add(note, log_from,True)
+            message = common.log_add(note, log_from,4)
             print(message)
 
         note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        message = common.log_add(note,log_from,False)
+        message = common.log_add(note,log_from,3)
         print(message)
 
 def txt_start():
@@ -72,7 +72,7 @@ def txt_start():
     export_file = exists(log_file_name)
     alerts = alerts_grab(False)
     note = 'Pulling Sophos Alerts'
-    message = common.log_add(note, log_from, False)
+    message = common.log_add(note, log_from, 2)
     print(message)
     alerts = alerts['items']
 
@@ -186,7 +186,7 @@ def add_log_data(alerts,logfile,exist):
 
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + alertID + ' created at ' + createdAt + ' added. Description: ' + description
-            message = common.log_add(note, log_from, True)
+            message = common.log_add(note, log_from, 4)
             print(message)
 
         with open(logfile, 'w') as f:
@@ -195,7 +195,7 @@ def add_log_data(alerts,logfile,exist):
             f.close()
 
         note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        message = common.log_add(note, log_from, False)
+        message = common.log_add(note, log_from, 3)
         print(message)
 
     if exist is True:
@@ -234,7 +234,7 @@ def add_log_data(alerts,logfile,exist):
 
                     new_alert_id_count = new_alert_id_count + 1
                     note = 'Alert ID: ' + alertID + ' created at ' + createdAt + ' added. Description: ' + description
-                    message = common.log_add(note, log_from, True)
+                    message = common.log_add(note, log_from, 4)
                     print(message)
 
         with open(logfile, 'a') as f:
@@ -243,7 +243,7 @@ def add_log_data(alerts,logfile,exist):
             f.close()
 
         note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        message = common.log_add(note, log_from, False)
+        message = common.log_add(note, log_from, 3)
         print(message)
 
 def run():
@@ -284,7 +284,7 @@ def run():
             except Exception as err:
                 error = err
                 note = 'ERROR: ' + error
-                common.log_add(note, log_from, True)
+                common.log_add(note, log_from, 1)
 
         if json_file is True:
             try:
@@ -292,7 +292,7 @@ def run():
             except Exception as err:
                 error = err
                 note = 'ERROR: ' + error
-                common.log_add(note, log_from, True)
+                common.log_add(note, log_from, 1)
 
         while pull_time >= 0:
             if pull_time == 0:

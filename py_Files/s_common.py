@@ -33,7 +33,7 @@ def add_data_json(events,filename):
             current_alert_data.append(x)
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + e + ' created at ' + t + ' added. Description: ' + d
-            message = log_add(note,log_from,True)
+            message = log_add(note,log_from,3)
             print(message)
 
 
@@ -42,10 +42,13 @@ def add_data_json(events,filename):
 
     new_alert_id_count = str(new_alert_id_count)
     note = new_alert_id_count + ' new logs added'
-    full_note = log_add(note,log_from,False)
+    full_note = log_add(note,log_from,2)
     print(full_note)
 
-def log_add(note,log_from,log):
+def log_add(note,log_from,level):
+
+    logging_level = log_level()
+
     with open('sophos.conf') as f:
         lines = [line.strip() for line in f]
 
@@ -64,7 +67,7 @@ def log_add(note,log_from,log):
             f.write(full_note + '\n')
             f.close()
 
-    if log is True:
+    if int(level) <= int(logging_level):
         with open(log_file, 'a') as f:
             now = datetime.now()
             now = now.strftime('%d/%m/%Y %H:%M:%S')
@@ -73,12 +76,6 @@ def log_add(note,log_from,log):
             f.write(full_note + '\n')
             f.close()
             return full_note
-
-    if log is False:
-        now = datetime.now()
-        now = now.strftime('%d/%m/%Y %H:%M:%S')
-        full_note = '[' + log_from + ' Log ' + now + '] ' + note
-        return full_note
 
 def bool_return(string):
     if string == 'True':
@@ -91,3 +88,24 @@ def config_load():
         lines = [line.strip() for line in f]
 
     return lines
+
+def config_check():
+    pass
+
+def log_level():
+    lines = config_load()
+
+    for x in lines:
+        if 'log_level' in x:
+            log_level = x.split(' = ')[1]
+
+    if log_level == 'VERBOSE':
+        return 4
+    elif log_level == 'INFO+':
+        return 3
+    elif log_level == 'INFO':
+        return 2
+    elif log_levl == 'ERROR':
+        return 1
+    elif log_level == 'OFF':
+        return 0

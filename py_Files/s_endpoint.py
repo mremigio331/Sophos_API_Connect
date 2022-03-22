@@ -3,7 +3,8 @@ import requests
 import s_authenticate as cate
 import s_common as common
 
-
+global log_from
+log_from = 'System'
 
 def health_status(query):
     """
@@ -18,6 +19,10 @@ def health_status(query):
         type - options are computer, server, securityVm
         lockdownStatus - options are creatingWhitelist, installing, locked, notInstalled, registering, starting, stopping, unavailable, uninstalled, unlocked
     """
+    note = 'Initiating Health Status Query ' + str(query) + '.'
+    message = common.log_add(note, log_from, 3)
+    print(message)
+
     auth = cate.auth_header_grab()
     info = cate.whoami()
     tenant_id = info['id']
@@ -36,7 +41,8 @@ def health_status(query):
     }
 
     request = requests.get(requestUrl, headers=requestHeaders)
-    return request.json()
+    result = request.json()
+    return result
 
 def isolation(xid, change, comment):
     """
@@ -53,19 +59,31 @@ def isolation(xid, change, comment):
     c_status = health_status(inputs) # runs the health_status function
     c_status_status = c_status['items'][0]['isolation']['status'] # creates a variable for the current isolation status of the device
     c_status_name = c_status['items'][0]['hostname'] # creates a variable for the name of the device
+
     if change is True: # True indicates the device will enter isolation mode
+
         if c_status_status == 'isolated':
-            print(c_status_name, 'is already isolated')  # if the device is already in isolation mode the code will print the following
+            note = c_status_name + ' is already isolated'
+            message = common.log_add(note, log_from, 3)
+            print(message)  # if the device is already in isolation mode the code will print the following
+
         if c_status_status == 'notIsolated':
-            print('The current status of', c_status_name, 'is',c_status_status + '.')  # if the device is not in isolation mode it will run the isolation_run function
-            isolation_run(xid,change,comment)
+            note = 'The current status of ' + c_status_name + ' is ' + c_status_status + '.'
+            message = common.log_add(note, log_from, 3) # if the device is not in isolation mode it will run the isolation_run function
+            print(message)
+            isolation_run(xid, change, comment)
 
     if change is False: # False indicates the device will exit isolation mode
         if c_status_status == 'isolated':
-            print('The current status of', c_status_name, 'is', c_status_status + '.')  # if the device is in isolation mode the code will execute the isolation_run function
+            note = 'The current status of ' + c_status_name + ' is ' + c_status_status + '.'  # if the device is in isolation mode the code will execute the isolation_run function
+            message = common.log_add(note, log_from, 3)
+            print(message)
             isolation_run(xid, change, comment)
+
         if c_status_status == 'notIsolated':
-            print(c_status_name, 'is already out of isolation mode.')  # if the device is already in isolation mode it will not execute the isolation_run function
+            note = c_status_name + ' is already out of isolation mode.'  # if the device is already in isolation mode it will not execute the isolation_run function
+            message = common.log_add(note, log_from, 3)
+            print(message)
 
 def isolation_run(xid,change,comment):
     """
@@ -88,7 +106,14 @@ def isolation_run(xid,change,comment):
         'Content-Type': 'application/json'
     }
     request = requests.post(requestUrl, headers=requestHeaders, json=requestBody)
-    return (request.json())
+
+    result = request.json()
+
+    note = str(result)
+    message = common.log_add(note, log_from, 2)
+    print(message)
+
+    return result
 
 def tamper_protection(eid,change):
     """
@@ -103,17 +128,26 @@ def tamper_protection(eid,change):
     print(type(current_status))
     if change is True: # True indicates turning on Tamper Protection
         if current_status is True:
-            print('Tamper Protection already enabled')
+            note = 'Tamper Protection already enabled for ' + eid + '.'
+            message = common.log_add(note, log_from, 3)
+            print(message)
         if current_status is False:
-            print('Tamper Protection is currently disabled')
+            note = 'Tamper Protection is currently disabled for ' + eid + '.'
+            message = common.log_add(note, log_from, 3)
+            print(message)
             tamper_protection_change(eid, change)
 
     if change is False: # False indicates turning off Tamper Protection
         if current_status is True:
-            print('Tamper Protection is currently enabled')
+            note = 'Tamper Protection is currently enabled for ' + eid + '.'
+            message = common.log_add(note, log_from, 3)
+            print(message)
             tamper_protection_change(eid, change)
+
         if current_status is False:
-            print('Tamper Protection is already disabled')
+            note = 'Tamper Protection is already disabled for ' + eid + '.'
+            message = common.log_add(note, log_from, 3)
+            print(message)
 
 def tamper_status(eid):
     """
@@ -133,7 +167,13 @@ def tamper_status(eid):
     }
     request = requests.get(requestUrl, headers=requestHeaders)
 
-    return request.json()
+    result = request.json()
+
+    note = str(result)
+    message = common.log_add(note, log_from, 3)
+    print(message)
+
+    return result
 
 def tamper_protection_change(eid, change):
     """
@@ -154,7 +194,14 @@ def tamper_protection_change(eid, change):
         'Accept': 'application/json'
     }
     request = requests.post(requestUrl, headers=requestHeaders, json=requestBody)
-    return request.content()
+
+    result = request.json()
+
+    note = str(result)
+    message = common.log_add(note, log_from, 2)
+    print(message)
+
+    return result
 
 def scan(eid):
     """
@@ -176,7 +223,13 @@ def scan(eid):
     }
     request = requests.post(requestUrl, headers=requestHeaders, json=requestBody)
 
-    return request.json()
+    result = request.json()
+
+    note = str(result)
+    message = common.log_add(note, log_from, 2)
+    print(message)
+
+    return result
 
 def update(eid):
     """
@@ -197,4 +250,11 @@ def update(eid):
         'Content-Type': 'application/json'
     }
     request = requests.post(requestUrl, headers=requestHeaders, json=requestBody)
-    return request.json()
+
+    result = request.json()
+
+    note = str(result)
+    message = common.log_add(note, log_from, 2)
+    print(message)
+
+    return result

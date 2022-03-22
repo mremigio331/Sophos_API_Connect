@@ -36,7 +36,7 @@ def json_start():
         with open(log_file_name, 'w') as outfile:
             json.dump(events, outfile)
             note = 'No events json file exited, created a new events json file'
-            common.log_add(note,log_from,True)
+            common.log_add(note,log_from,2)
             print('File does not exist')
 
         new_event_id_count = 0
@@ -50,11 +50,11 @@ def json_start():
             current_event_data.append(x)
             new_event_id_count = new_event_id_count + 1
             note = 'Event ID: ' + e + ' created at ' + t + ' added. Description: ' + d
-            message = common.log_add(note, log_from,True)
+            message = common.log_add(note, log_from,4)
             print(message)
 
         note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-        message = common.log_add(note,log_from,False)
+        message = common.log_add(note,log_from,3)
         print(message)
 
 def txt_start():
@@ -76,7 +76,7 @@ def txt_start():
     events = events['items']
 
     if export_file is True:
-        add_log_data(events,log_file_name,False)
+        add_log_data(events, log_file_name, False)
 
     if export_file is False:
         add_log_data(events, log_file_name, True)
@@ -109,7 +109,7 @@ def add_log_data(events,logfile,newfile):
 
                 new_event_id_count = new_event_id_count + 1
                 note = 'Event ID: ' + eventID + ' created at ' + createdAt + ' added. Name: ' + name
-                message = common.log_add(note, log_from, True)
+                message = common.log_add(note, log_from, 4)
                 print(message)
 
         with open(logfile, 'w') as f:
@@ -118,7 +118,7 @@ def add_log_data(events,logfile,newfile):
             f.close()
 
         note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-        message = common.log_add(note, log_from, False)
+        message = common.log_add(note, log_from, 3)
         print(message)
 
     if newfile is False:
@@ -160,7 +160,7 @@ def add_log_data(events,logfile,newfile):
 
                     new_event_id_count = new_event_id_count + 1
                     note = 'Event ID: ' + eventID + ' created at ' + createdAt + ' added. Name: ' + name
-                    message = common.log_add(note, log_from, True)
+                    message = common.log_add(note, log_from, 4)
                     print(message)
 
 
@@ -170,7 +170,7 @@ def add_log_data(events,logfile,newfile):
             f.close()
 
         note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-        message = common.log_add(note, log_from, False)
+        message = common.log_add(note, log_from, 3)
         print(message)
 
 def events_pull(timespan):
@@ -250,7 +250,7 @@ def run():
             except Exception as err:
                 error = err
                 note = 'ERROR: ' + error
-                common.log_add(note, log_from, True)
+                common.log_add(note, log_from, 1)
 
         if json_file is True:
             try:
@@ -258,7 +258,7 @@ def run():
             except Exception as err:
                 error = err
                 note = 'ERROR: ' + error
-                common.log_add(note, log_from, True)
+                common.log_add(note, log_from, 1)
 
         while pull_time >= 0:
             if pull_time == 0:
