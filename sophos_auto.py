@@ -19,7 +19,7 @@ log_from = 'System'
 def alert_grab():
     try:
         alerts.run()
-        except Exception as e:
+    except Exception as e:
         note = 'ERROR ' + e.__class__
         common.log_add(note, log_from, True)
     except KeyboardInterrupt as e:
@@ -29,7 +29,7 @@ def alert_grab():
 def events_grab():
     try:
         events.run()
-        except Exception as e:
+    except Exception as e:
         note = 'ERROR ' + e.__class__
         common.log_add(note, log_from, True)
     except KeyboardInterrupt as e:
@@ -42,7 +42,7 @@ if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
         note = 'Initiating Sophos Alerts Pull'
         common.log_add(note, log_from,True)
         alert_grab()
-        except Exception as e:
+    except Exception as e:
         note = 'ERROR ' + e.__class__
         common.log_add(note, log_from, True)
     except KeyboardInterrupt as e:
@@ -55,7 +55,7 @@ if ('-e' in  sys.argv) or ('-events' in sys.argv):
         note = 'Initiating Sophos Events Pull'
         common.log_add(note, log_from,True)
         events_grab()
-        except Exception as e:
+    except Exception as e:
         note = 'ERROR ' + e.__class__
         common.log_add(note, log_from, True)
     except KeyboardInterrupt as e:
@@ -83,12 +83,12 @@ if ('-r' in sys.argv) or ('-run' in sys.argv):
             p2.start()
             p1.join()
             p2.join()
-            except Exception as e:
+    except Exception as e:
             note = 'ERROR ' + e.__class__
             common.log_add(note, log_from, True)
-        except KeyboardInterrupt as e:
-        note = 'ERROR ' + e.__class__
-        common.log_add(note, log_from, True)
+    except KeyboardInterrupt as e:
+    note = 'ERROR ' + e.__class__
+    common.log_add(note, log_from, True)
 
 if ('-w' in sys.argv) or ('-whoami' in sys.argv):
     print('*** Attempting a WhoAmI Authentication Request ***')
