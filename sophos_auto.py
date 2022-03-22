@@ -53,43 +53,17 @@ def events_grab():
         print(message)
 
 if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
-    try:
-        print('*** Pulling Just Alerts ***')
-        note = 'Initiating Sophos Alerts Pull'
-        message = common.log_add(note, log_from,2)
-        print(message)
-        alert_grab()
-    except SystemExit as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
-    except Exception as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
-    except KeyboardInterrupt as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
+    print('*** Pulling Just Alerts ***')
+    note = 'Initiating Sophos Alerts Pull'
+    message = common.log_add(note, log_from,2)
+    print(message)
+    alert_grab()
 
 if ('-e' in  sys.argv) or ('-events' in sys.argv):
-    try:
-        print('*** Pulling Just Events ***')
-        note = 'Initiating Sophos Events Pull'
-        common.log_add(note, log_from,2)
-        events_grab()
-    except SystemExit as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
-    except Exception as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
-    except KeyboardInterrupt as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
+    print('*** Pulling Just Events ***')
+    note = 'Initiating Sophos Events Pull'
+    common.log_add(note, log_from,2)
+    events_grab()
 
 if ('-h' in sys.argv) or ('-help' in sys.argv):
     print('*** Commands ***')
@@ -100,32 +74,17 @@ if ('-h' in sys.argv) or ('-help' in sys.argv):
     print('-w  -whoami       will attempt a whoami authentication')
 
 if ('-r' in sys.argv) or ('-run' in sys.argv):
-    try:
-        print('*** Pulling Both Alerts and Events ***')
-        note = 'Initiating Sophos Alerts and Events Pull'
-        common.log_add(note,log_from,True)
-        if __name__ == '__main__':
-            freeze_support()
-            p1 = multiprocessing.Process(target=alert_grab)
-            p2 = multiprocessing.Process(target=events_grab)
-            p1.start()
-            p2.start()
-            p1.join()
-            p2.join()
-
-    except SystemExit as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
-    except Exception as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
-    except KeyboardInterrupt as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
-
+    print('*** Pulling Both Alerts and Events ***')
+    note = 'Initiating Sophos Alerts and Events Pull'
+    common.log_add(note,log_from,True)
+    if __name__ == '__main__':
+        freeze_support()
+        p1 = multiprocessing.Process(target=alert_grab)
+        p2 = multiprocessing.Process(target=events_grab)
+        p1.start()
+        p2.start()
+        p1.join()
+        p2.join()
 
 if ('-w' in sys.argv) or ('-whoami' in sys.argv):
     print('*** Attempting a WhoAmI Authentication Request ***')
