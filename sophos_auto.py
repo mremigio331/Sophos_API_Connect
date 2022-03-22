@@ -23,32 +23,34 @@ log_from = 'System'
 def alert_grab():
     try:
         alerts.run()
-    except SystemExit as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
+
     except Exception as e:
-        note = 'ERROR ' + str(e)
+        note = 'ERROR: ' + str(e)
         message = common.log_add(note, log_from, 1)
         print(message)
     except KeyboardInterrupt as e:
-        note = 'ERROR ' + str(e)
+        note = 'ERROR: ' + str(e)
+        message = common.log_add(note, log_from, 1)
+        print(message)
+    except SystemExit:
+        note = 'Alert_Grab Stopped'
         message = common.log_add(note, log_from, 1)
         print(message)
 
 def events_grab():
     try:
         events.run()
-    except SystemExit as e:
-        note = 'ERROR ' + str(e)
-        message = common.log_add(note, log_from, 1)
-        print(message)
+
     except Exception as e:
-        note = 'ERROR ' + str(e)
+        note = 'ERROR: ' + str(e)
         message = common.log_add(note, log_from, 1)
         print(message)
     except KeyboardInterrupt as e:
-        note = 'ERROR ' + str(e)
+        note = 'ERROR: ' + str(e)
+        message = common.log_add(note, log_from, 1)
+        print(message)
+    except SystemExit:
+        note = 'Events_Grab Stopped'
         message = common.log_add(note, log_from, 1)
         print(message)
 
