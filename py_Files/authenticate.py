@@ -104,7 +104,7 @@ def whoami():
             request = requests.get(requestUrl, headers=requestHeaders)
 
             note = 'WhoAmI Authentication Sucessfull'
-            full_note = coommon.log_add(note, 'System', False)
+            full_note = common.log_add(note, 'System', False)
             print(full_note)
 
             return (request.json()) # will return in a dict the X-Tenant-ID and the data region
