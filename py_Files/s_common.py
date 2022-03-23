@@ -229,6 +229,8 @@ def log_level():
     for x in lines:
         if 'log_level' in x:
             log_level = x.split(' = ')[1]
+        if 'log_file_name' in x:
+            log_file = x.split('=')[1].strip()
 
     if log_level in log_levels:
 
@@ -243,4 +245,11 @@ def log_level():
         elif log_level == 'OFF':
             return 0
     else:
-        return 0
+        with open(log_file, 'a') as f:
+            now = datetime.now()
+            now = now.strftime('%d/%m/%Y %H:%M:%S')
+            full_note = "[System Log" + now + "] Config file contains the following errors: ['Invalid Log Level Input']"
+            full_note = str(full_note)
+            f.write(full_note + '\n')
+            f.close()
+            print(full_note)
