@@ -26,7 +26,7 @@ def json_start():
     json_file_exists = exists(log_file_name)
     alerts = alerts_grab(False)
     note = 'Pulling Sophos Alerts'
-    common.log_add(note,log_from,False)
+    common.log_add(note,log_from,3)
     alerts = alerts['items']
 
     if json_file_exists is True:
