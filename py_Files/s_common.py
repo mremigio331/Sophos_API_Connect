@@ -233,7 +233,7 @@ def log_level():
         return 3
     elif log_level == 'INFO':
         return 2
-    elif log_levl == 'ERROR':
+    elif log_level == 'ERROR':
         return 1
     elif log_level == 'OFF':
         return 0
