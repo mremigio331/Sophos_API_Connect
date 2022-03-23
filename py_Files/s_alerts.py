@@ -68,7 +68,7 @@ def txt_start():
     export_file = exists(log_file_name)
     alerts = alerts_grab(False)
     note = 'Pulling Sophos Alerts'
-    common.log_add(note, log_from, 2)
+    common.log_add(note, log_from, 3)
     alerts = alerts['items']
 
     if export_file is True:

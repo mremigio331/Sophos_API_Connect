@@ -69,7 +69,7 @@ def txt_start():
     export_file = exists(log_file_name)
     events = events_pull(False)
     note = 'Pulling Sophos Events'
-    common.log_add(note, log_from, False)
+    common.log_add(note, log_from, 3)
     events = events['items']
 
     if export_file is True:
