@@ -28,8 +28,8 @@ def alert_grab():
         note = 'ERROR: ' + str(e)
         message = common.log_add(note, 'Alerts', 1)
         print(message)
-    except KeyboardInterrupt as e:
-        note = 'ERROR: ' + str(e)
+    except KeyboardInterrupt as k:
+        note = 'ERROR: ' + str(k)
         message = common.log_add(note, 'Alerts', 1)
         print(message)
     except SystemExit:
@@ -45,12 +45,8 @@ def events_grab():
         note = 'ERROR: ' + str(e)
         message = common.log_add(note, 'Events', 1)
         print(message)
-    except KeyboardInterrupt as e:
-        note = 'ERROR: ' + str(e)
-        message = common.log_add(note, 'Events', 1)
-        print(message)
-    except SystemExit:
-        note = 'Events_Grab Stopped'
+    except KeyboardInterrupt as k:
+        note = 'ERROR: ' + str(k)
         message = common.log_add(note, 'Events', 1)
         print(message)
 
