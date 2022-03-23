@@ -76,6 +76,8 @@ def log_add(note,log_from,level):
             f.write(full_note + '\n')
             f.close()
             return full_note
+    else:
+        return('')
 
 def bool_return(string):
     if string == 'True':
