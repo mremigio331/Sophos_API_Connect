@@ -95,7 +95,7 @@ def config_check():
     lines = config_load()
     total_errors = []
     full_config = []
-    log_levels = ['VERBOSE', 'INFO+', 'INFO', 'ERROR', 'OFF']
+    log_levels = ['VERBOSE', 'LOG', 'INFO', 'ERROR', 'OFF']
     bool_options = ['True','False']
 
     for x in lines:
@@ -224,7 +224,7 @@ def config_check():
 
 def log_level():
     lines = config_load()
-    log_levels = ['VERBOSE', 'INFO+', 'INFO', 'ERROR', 'OFF']
+    log_levels = ['VERBOSE', 'LOG+', 'INFO', 'ERROR', 'OFF']
 
     for x in lines:
         if 'log_level' in x:
@@ -236,7 +236,7 @@ def log_level():
 
         if log_level == 'VERBOSE':
             return 4
-        elif log_level == 'INFO+':
+        elif log_level == 'LOG':
             return 3
         elif log_level == 'INFO':
             return 2
