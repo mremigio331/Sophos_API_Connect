@@ -224,20 +224,23 @@ def config_check():
 
 def log_level():
     lines = config_load()
+    log_levels = ['VERBOSE', 'INFO+', 'INFO', 'ERROR', 'OFF']
 
     for x in lines:
         if 'log_level' in x:
             log_level = x.split(' = ')[1]
 
-    if log_level == 'VERBOSE':
-        return 4
-    elif log_level == 'INFO+':
-        return 3
-    elif log_level == 'INFO':
-        return 2
-    elif log_level == 'ERROR':
-        return 1
-    elif log_level == 'OFF':
-        return 0
+    if log_level in log_levels:
+
+        if log_level == 'VERBOSE':
+            return 4
+        elif log_level == 'INFO+':
+            return 3
+        elif log_level == 'INFO':
+            return 2
+        elif log_level == 'ERROR':
+            return 1
+        elif log_level == 'OFF':
+            return 0
     else:
         return 0
