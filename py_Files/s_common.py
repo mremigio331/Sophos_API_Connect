@@ -90,6 +90,7 @@ def config_load():
 
 def config_check():
 
+    lines = config_load()
     total_errors = []
     full_config = []
     log_levels = ['VERBOSE', 'INFO+', 'INFO', 'ERROR', 'OFF']

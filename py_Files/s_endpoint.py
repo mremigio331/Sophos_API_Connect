@@ -7,7 +7,7 @@ configuration_check = common.config_check()
 
 if configuration_check is False:
     sys.exit()
-    
+
 global log_from
 log_from = 'System'
 
