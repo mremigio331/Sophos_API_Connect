@@ -253,3 +253,4 @@ def log_level():
             f.write(full_note + '\n')
             f.close()
             print(full_note)
+            sys.exit()
