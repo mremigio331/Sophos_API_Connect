@@ -107,8 +107,7 @@ def whoami():
             request = requests.get(requestUrl, headers=requestHeaders)
 
             note = 'WhoAmI Authentication Sucessfull'
-            full_note = common.log_add(note, log_from, 4)
-            print(full_note)
+            common.log_add(note, log_from, 4)
 
             return (request.json()) # will return in a dict the X-Tenant-ID and the data region
 
@@ -116,14 +115,12 @@ def whoami():
 
             if success == 0:
                 note = 'ERROR: WhoAmI Authentication TimedOut'
-                message = common.log_add(note, log_from, 1)
-                print(message)
+                common.log_add(note, log_from, 1)
                 success = success - 1
 
 
             else:
                 note = 'ERROR: WhoAmI Authentication unsuccessful, attempting ' + str(success) + ' more attempts.'
-                message = common.log_add(note, log_from, 1)
-                print(message)
+                common.log_add(note, log_from, 1)
                 success = success - 1
 

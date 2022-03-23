@@ -50,12 +50,10 @@ def json_start():
             current_event_data.append(x)
             new_event_id_count = new_event_id_count + 1
             note = 'Event ID: ' + e + ' created at ' + t + ' added. Description: ' + d
-            message = common.log_add(note, log_from,4)
-            print(message)
+            common.log_add(note, log_from,4)
 
         note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-        message = common.log_add(note,log_from,3)
-        print(message)
+        common.log_add(note,log_from,3)
 
 def txt_start():
     lines = common.config_load()
@@ -71,8 +69,7 @@ def txt_start():
     export_file = exists(log_file_name)
     events = events_pull(False)
     note = 'Pulling Sophos Events'
-    message = common.log_add(note, log_from, False)
-    print(message)
+    common.log_add(note, log_from, False)
     events = events['items']
 
     if export_file is True:
@@ -109,8 +106,7 @@ def add_log_data(events,logfile,newfile):
 
                 new_event_id_count = new_event_id_count + 1
                 note = 'Event ID: ' + eventID + ' created at ' + createdAt + ' added. Name: ' + name
-                message = common.log_add(note, log_from, 4)
-                print(message)
+                common.log_add(note, log_from, 4)
 
         with open(logfile, 'w') as f:
             for x in events_list:
@@ -118,8 +114,7 @@ def add_log_data(events,logfile,newfile):
             f.close()
 
         note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-        message = common.log_add(note, log_from, 3)
-        print(message)
+        common.log_add(note, log_from, 3)
 
     if newfile is False:
         today = datetime.now()
@@ -160,8 +155,7 @@ def add_log_data(events,logfile,newfile):
 
                     new_event_id_count = new_event_id_count + 1
                     note = 'Event ID: ' + eventID + ' created at ' + createdAt + ' added. Name: ' + name
-                    message = common.log_add(note, log_from, 4)
-                    print(message)
+                    common.log_add(note, log_from, 4)
 
 
         with open(logfile, 'a') as f:
@@ -170,8 +164,7 @@ def add_log_data(events,logfile,newfile):
             f.close()
 
         note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-        message = common.log_add(note, log_from, 3)
-        print(message)
+        common.log_add(note, log_from, 3)
 
 def events_pull(timespan):
     """

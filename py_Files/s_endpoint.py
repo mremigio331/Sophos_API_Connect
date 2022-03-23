@@ -20,8 +20,7 @@ def health_status(query):
         lockdownStatus - options are creatingWhitelist, installing, locked, notInstalled, registering, starting, stopping, unavailable, uninstalled, unlocked
     """
     note = 'Initiating Health Status Query ' + str(query) + '.'
-    message = common.log_add(note, log_from, 3)
-    print(message)
+    common.log_add(note, log_from, 3)
 
     auth = cate.auth_header_grab()
     info = cate.whoami()
@@ -62,28 +61,24 @@ def isolation(xid, change, comment):
 
     if change is True: # True indicates the device will enter isolation mode
 
-        if c_status_status == 'isolated':
+        if c_status_status == 'isolated': # if the device is already in isolation mode the code will print the following
             note = c_status_name + ' is already isolated'
-            message = common.log_add(note, log_from, 3)
-            print(message)  # if the device is already in isolation mode the code will print the following
+            common.log_add(note, log_from, 3)
 
-        if c_status_status == 'notIsolated':
+        if c_status_status == 'notIsolated': # if the device is not in isolation mode it will run the isolation_run function
             note = 'The current status of ' + c_status_name + ' is ' + c_status_status + '.'
-            message = common.log_add(note, log_from, 3) # if the device is not in isolation mode it will run the isolation_run function
-            print(message)
+            common.log_add(note, log_from, 3)
             isolation_run(xid, change, comment)
 
     if change is False: # False indicates the device will exit isolation mode
         if c_status_status == 'isolated':
             note = 'The current status of ' + c_status_name + ' is ' + c_status_status + '.'  # if the device is in isolation mode the code will execute the isolation_run function
-            message = common.log_add(note, log_from, 3)
-            print(message)
+            common.log_add(note, log_from, 3)
             isolation_run(xid, change, comment)
 
         if c_status_status == 'notIsolated':
             note = c_status_name + ' is already out of isolation mode.'  # if the device is already in isolation mode it will not execute the isolation_run function
-            message = common.log_add(note, log_from, 3)
-            print(message)
+            common.log_add(note, log_from, 3)
 
 def isolation_run(xid,change,comment):
     """
@@ -110,8 +105,7 @@ def isolation_run(xid,change,comment):
     result = request.json()
 
     note = str(result)
-    message = common.log_add(note, log_from, 2)
-    print(message)
+    common.log_add(note, log_from, 2)
 
     return result
 
@@ -125,29 +119,24 @@ def tamper_protection(eid,change):
     """
     status = tamper_status(eid)
     current_status = status['enabled']
-    print(type(current_status))
     if change is True: # True indicates turning on Tamper Protection
         if current_status is True:
             note = 'Tamper Protection already enabled for ' + eid + '.'
-            message = common.log_add(note, log_from, 3)
-            print(message)
+            common.log_add(note, log_from, 3)
         if current_status is False:
             note = 'Tamper Protection is currently disabled for ' + eid + '.'
-            message = common.log_add(note, log_from, 3)
-            print(message)
+            common.log_add(note, log_from, 3)
             tamper_protection_change(eid, change)
 
     if change is False: # False indicates turning off Tamper Protection
         if current_status is True:
             note = 'Tamper Protection is currently enabled for ' + eid + '.'
-            message = common.log_add(note, log_from, 3)
-            print(message)
+            common.log_add(note, log_from, 3)
             tamper_protection_change(eid, change)
 
         if current_status is False:
             note = 'Tamper Protection is already disabled for ' + eid + '.'
-            message = common.log_add(note, log_from, 3)
-            print(message)
+            common.log_add(note, log_from, 3)
 
 def tamper_status(eid):
     """
@@ -170,8 +159,7 @@ def tamper_status(eid):
     result = request.json()
 
     note = str(result)
-    message = common.log_add(note, log_from, 3)
-    print(message)
+    common.log_add(note, log_from, 3)
 
     return result
 
@@ -198,8 +186,7 @@ def tamper_protection_change(eid, change):
     result = request.json()
 
     note = str(result)
-    message = common.log_add(note, log_from, 2)
-    print(message)
+    common.log_add(note, log_from, 2)
 
     return result
 
@@ -226,8 +213,7 @@ def scan(eid):
     result = request.json()
 
     note = str(result)
-    message = common.log_add(note, log_from, 2)
-    print(message)
+    common.log_add(note, log_from, 2)
 
     return result
 
@@ -254,7 +240,6 @@ def update(eid):
     result = request.json()
 
     note = str(result)
-    message = common.log_add(note, log_from, 2)
-    print(message)
+    common.log_add(note, log_from, 2)
 
     return result

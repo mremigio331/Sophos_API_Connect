@@ -33,24 +33,20 @@ def add_data_json(events,filename):
             current_alert_data.append(x)
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + e + ' created at ' + t + ' added. Description: ' + d
-            message = log_add(note,log_from,3)
-            print(message)
-
+            log_add(note,log_from,3)
 
     with open(filename, 'w') as outfile:
         json.dump(current_alert_data, outfile)
 
     new_alert_id_count = str(new_alert_id_count)
     note = new_alert_id_count + ' new logs added'
-    full_note = log_add(note,log_from,2)
-    print(full_note)
+    log_add(note,log_from,2)
 
 def log_add(note,log_from,level):
 
     logging_level = log_level()
 
-    with open('sophos.conf') as f:
-        lines = [line.strip() for line in f]
+    lines = config_load()
 
     for x in lines:
         if 'log_file_name' in x:
@@ -67,6 +63,8 @@ def log_add(note,log_from,level):
             f.write(full_note + '\n')
             f.close()
 
+        print(full_note)
+
     if int(level) <= int(logging_level):
         with open(log_file, 'a') as f:
             now = datetime.now()
@@ -75,9 +73,7 @@ def log_add(note,log_from,level):
             full_note = str(full_note)
             f.write(full_note + '\n')
             f.close()
-            return full_note
-    else:
-        return('')
+            print(full_note)
 
 def bool_return(string):
     if string == 'True':

@@ -26,16 +26,10 @@ def alert_grab():
 
     except Exception as e:
         note = 'ERROR: ' + str(e)
-        message = common.log_add(note, 'Alerts', 1)
-        print(message)
-    except KeyboardInterrupt as k:
-        note = 'ERROR: ' + str(k)
-        message = common.log_add(note, 'Alerts', 1)
-        print(message)
-    except SystemExit:
-        note = 'Alert_Grab Stopped'
-        message = common.log_add(note, 'Alerts', 1)
-        print(message)
+        common.log_add(note, 'Alerts', 1)
+    except KeyboardInterrupt:
+        note = 'User Ended Alert_Pull'
+        common.log_add(note, 'Alerts', 2)
 
 def events_grab():
     try:
@@ -43,18 +37,17 @@ def events_grab():
 
     except Exception as e:
         note = 'ERROR: ' + str(e)
-        message = common.log_add(note, 'Events', 1)
-        print(message)
-    except KeyboardInterrupt as k:
-        note = 'ERROR: ' + str(k)
-        message = common.log_add(note, 'Events', 1)
-        print(message)
+        common.log_add(note, 'Events', 1)
+
+    except KeyboardInterrupt:
+        note = 'User Ended Event_Pull'
+        common.log_add(note, 'Events', 2)
+
 
 if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
     print('*** Pulling Just Alerts ***')
     note = 'Initiating Sophos Alerts Pull'
-    message = common.log_add(note, log_from,2)
-    print(message)
+    common.log_add(note, log_from,2)
     alert_grab()
 
 if ('-e' in  sys.argv) or ('-events' in sys.argv):

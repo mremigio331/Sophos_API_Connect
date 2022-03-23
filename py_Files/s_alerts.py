@@ -26,8 +26,7 @@ def json_start():
     json_file_exists = exists(log_file_name)
     alerts = alerts_grab(False)
     note = 'Pulling Sophos Alerts'
-    message = common.log_add(note,log_from,False)
-    print(message)
+    common.log_add(note,log_from,False)
     alerts = alerts['items']
 
     if json_file_exists is True:
@@ -38,7 +37,6 @@ def json_start():
             json.dump(alerts, outfile)
             note = 'No alerts json file exited, created a new alerts json file'
             common.log_add(note,log_from,2)
-            print('File does not exist')
 
         new_alert_id_count = 0
         current_alert_data = []
@@ -51,12 +49,10 @@ def json_start():
             current_alert_data.append(x)
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + e + ' created at ' + t + ' added. Description: ' + d
-            message = common.log_add(note, log_from,4)
-            print(message)
+            common.log_add(note, log_from,4)
 
         note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        message = common.log_add(note,log_from,3)
-        print(message)
+        common.log_add(note,log_from,3)
 
 def txt_start():
     lines = common.config_load()
@@ -72,8 +68,7 @@ def txt_start():
     export_file = exists(log_file_name)
     alerts = alerts_grab(False)
     note = 'Pulling Sophos Alerts'
-    message = common.log_add(note, log_from, 2)
-    print(message)
+    common.log_add(note, log_from, 2)
     alerts = alerts['items']
 
     if export_file is True:
@@ -103,8 +98,7 @@ def alerts_grab(timespan):
         }
         request = requests.get(requestUrl, headers=requestHeaders)
 
-        return (
-            request.json())  # returns a dic with every alert. Each alert will have the following keys: (['id', 'allowedActions', 'category', 'description', 'groupKey', 'managedAgent', 'product', 'raisedAt', 'severity', 'tenant', 'type'])
+        return request.json()  # returns a dic with every alert. Each alert will have the following keys: (['id', 'allowedActions', 'category', 'description', 'groupKey', 'managedAgent', 'product', 'raisedAt', 'severity', 'tenant', 'type'])
 
     if timespan is False:
         d = datetime.today() - timedelta(days=1)  # creates a datetime variable for yesterday at this time
@@ -195,8 +189,7 @@ def add_log_data(alerts,logfile,exist):
             f.close()
 
         note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        message = common.log_add(note, log_from, 3)
-        print(message)
+        common.log_add(note, log_from, 3)
 
     if exist is True:
         today = datetime.now()
@@ -234,8 +227,7 @@ def add_log_data(alerts,logfile,exist):
 
                     new_alert_id_count = new_alert_id_count + 1
                     note = 'Alert ID: ' + alertID + ' created at ' + createdAt + ' added. Description: ' + description
-                    message = common.log_add(note, log_from, 4)
-                    print(message)
+                    common.log_add(note, log_from, 4)
 
         with open(logfile, 'a') as f:
             for x in alert_list:
@@ -243,8 +235,7 @@ def add_log_data(alerts,logfile,exist):
             f.close()
 
         note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        message = common.log_add(note, log_from, 3)
-        print(message)
+        common.log_add(note, log_from, 3)
 
 def run():
     lines = common.config_load()
