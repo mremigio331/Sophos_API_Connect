@@ -1,3 +1,5 @@
+import sys
+import os
 import requests
 
 import s_authenticate as cate
