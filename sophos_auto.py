@@ -26,15 +26,15 @@ def alert_grab():
 
     except Exception as e:
         note = 'ERROR: ' + str(e)
-        message = common.log_add(note, log_from, 1)
+        message = common.log_add(note, 'Alerts', 1)
         print(message)
     except KeyboardInterrupt as e:
         note = 'ERROR: ' + str(e)
-        message = common.log_add(note, log_from, 1)
+        message = common.log_add(note, 'Alerts', 1)
         print(message)
     except SystemExit:
         note = 'Alert_Grab Stopped'
-        message = common.log_add(note, log_from, 1)
+        message = common.log_add(note, 'Alerts', 1)
         print(message)
 
 def events_grab():
@@ -43,15 +43,15 @@ def events_grab():
 
     except Exception as e:
         note = 'ERROR: ' + str(e)
-        message = common.log_add(note, log_from, 1)
+        message = common.log_add(note, 'Events', 1)
         print(message)
     except KeyboardInterrupt as e:
         note = 'ERROR: ' + str(e)
-        message = common.log_add(note, log_from, 1)
+        message = common.log_add(note, 'Events', 1)
         print(message)
     except SystemExit:
         note = 'Events_Grab Stopped'
-        message = common.log_add(note, log_from, 1)
+        message = common.log_add(note, 'Events', 1)
         print(message)
 
 if ('-a' in  sys.argv) or ('-alerts' in sys.argv):
