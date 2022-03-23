@@ -246,7 +246,7 @@ def add_log_data(alerts,logfile,exist):
         message = common.log_add(note, log_from, 3)
         print(message)
 
-def run()
+def run():
     lines = common.config_load()
 
     for x in lines:
