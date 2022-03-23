@@ -16,6 +16,11 @@ import s_authenticate as cate
 import s_events as events
 import s_common as common
 
+configuration_check = common.config_check()
+
+if configuration_check is False:
+    sys.exit()
+
 
 global log_from
 log_from = 'System'

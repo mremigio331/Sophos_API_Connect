@@ -3,6 +3,7 @@ import json
 
 from datetime import datetime
 
+
 def add_data_json(events,filename):
 
     log_from = filename.split('_')[0]
@@ -88,7 +89,135 @@ def config_load():
     return lines
 
 def config_check():
-    pass
+
+    total_errors = []
+    full_config = []
+    log_levels = ['VERBOSE', 'INFO+', 'INFO', 'ERROR', 'OFF']
+    bool_options = ['True','False']
+
+    for x in lines:
+
+        if 'client_id' in x:
+            try:
+                client_id = x.split(' = ')[1]
+            except:
+                error = 'Invalid Client ID'
+                total_errors.append(error)
+
+        if 'client_secret' in x:
+            try:
+                client_secret = x.split(' = ')[1]
+            except:
+                error = 'Invalid Client Secret ID'
+                total_errors.append(error)
+
+        if 'pull_time' in x:
+            try:
+                pull_time = x.split(' = ')[1]
+                pull_time = int(pull_time)
+                full_config.append(x)
+            except:
+                error = 'Invalid Pull Time'
+                total_errors.append(error)
+
+        if 'run' in x:
+            try:
+                run = x.split(' = ')[1]
+                if run in bool_options:
+                    full_config.append(x)
+                else:
+                    error = 'Invalid Run'
+                    total_errors.append(error)
+            except:
+                error = 'Invalid Run'
+                total_errors.append(error)
+
+        if 'txt_file_creation' in x:
+            try:
+                txt_file_creation = x.split(' = ')[1]
+                if txt_file_creation in bool_options:
+                    full_config.append(x)
+                else:
+                    error = 'Invalid Run'
+                    total_errors.append(error)
+            except:
+                error = 'Invalid TXT File Creation'
+                total_errors.append(error)
+
+        if 'json_file_creation' in x:
+            try:
+                json_file_creation = x.split(' = ')[1]
+                if json_file_creation in bool_options:
+                    full_config.append(x)
+                else:
+                    error = 'Invalid Run'
+                    total_errors.append(error)
+            except:
+                error = 'Invalid JSON File Creation'
+                total_errors.append(error)
+
+        if 'alerts_txt_file_name' in x:
+            try:
+                alerts_txt_file_name = x.split('=')[1].strip()
+                full_config.append(x)
+            except:
+                error = 'Invalid Alerts TXT File Name'
+                total_errors.append(error)
+
+        if 'events_txt_file_name' in x:
+            try:
+                events_txt_file_name = x.split('=')[1].strip()
+                full_config.append(x)
+            except:
+                error = 'Invalid Events TXT File Name'
+                total_errors.append(error)
+
+        if 'alerts_json_file_name' in x:
+            try:
+                alerts_json_file_name = x.split('=')[1].strip()
+                full_config.append(x)
+            except:
+                error = 'Invalid Alerts JSON File Name'
+                total_errors.append(error)
+
+        if 'events_json_file_name' in x:
+            try:
+                events_json_file_name = x.split('=')[1].strip()
+                full_config.append(x)
+            except:
+                error = 'Invalid Events JSON File Name'
+                total_errors.append(error)
+
+        if 'log_level' in x:
+            try:
+                log_level = x.split('=')[1].strip()
+
+                if log_level in log_levels:
+                    full_config.append(x)
+                else:
+                    error = 'Invalid Log Level File Name'
+                    total_errors.append(error)
+            except:
+                error = 'Invalid Events JSON File Name'
+                total_errors.append(error)
+
+        if 'log_file_name' in x:
+            try:
+                log_file_name = x.split('=')[1].strip()
+                full_config.append(x)
+            except:
+                error = 'Invalid Events JSON File Name'
+                total_errors.append(error)
+
+    if len(total_errors) > 0:
+        note = 'ERROR: Config file contains the following errors: ' + str(total_errors)
+        log_add(note,'System',1)
+        return False
+
+    else:
+        note = 'Configurations: ' + str(full_config)
+        log_add(note,'System',3)
+        return True
 
 def log_level():
     lines = config_load()
