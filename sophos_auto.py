@@ -43,7 +43,6 @@ def events_grab():
     except Exception as e:
         note = 'ERROR: ' + str(e)
         common.log_add(note, 'Events', 1)
-
     except KeyboardInterrupt:
         note = 'User Ended Event_Pull'
         common.log_add(note, 'Events', 2)
@@ -72,7 +71,7 @@ if ('-h' in sys.argv) or ('-help' in sys.argv):
 if ('-r' in sys.argv) or ('-run' in sys.argv):
     print('*** Pulling Both Alerts and Events ***')
     note = 'Initiating Sophos Alerts and Events Pull'
-    common.log_add(note,log_from,True)
+    common.log_add(note,log_from,2)
     if __name__ == '__main__':
         freeze_support()
         p1 = multiprocessing.Process(target=alert_grab)

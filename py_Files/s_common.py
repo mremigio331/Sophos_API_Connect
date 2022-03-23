@@ -219,7 +219,7 @@ def config_check():
 
     else:
         note = 'Configurations: ' + str(full_config)
-        log_add(note,'System',3)
+        log_add(note,'System',2)
         return True
 
 def log_level():
