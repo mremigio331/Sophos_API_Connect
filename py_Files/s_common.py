@@ -239,3 +239,5 @@ def log_level():
         return 1
     elif log_level == 'OFF':
         return 0
+    else:
+        return 0
