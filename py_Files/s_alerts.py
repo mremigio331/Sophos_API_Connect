@@ -278,7 +278,7 @@ def add_log_data(alerts, logfile, exist):
                 f.write(x + '\n')
             f.close()
 
-        if new_alert_id_list > 0:
+        if new_alert_id_count > 0:
             note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
             common.log_add(note, log_from, 3)
 
