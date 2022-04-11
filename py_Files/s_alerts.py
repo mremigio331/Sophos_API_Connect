@@ -1,3 +1,6 @@
+"""
+S_Alerts holds all functions that specifically deal with Alerts
+"""
 import sys
 from os.path import exists
 import json
@@ -10,9 +13,14 @@ import s_common as common
 
 
 global log_from
-log_from = 'Alerts'
+log_from = 'Alerts'  # defines for all logs where the log is connected to
+
 
 def json_start():
+    """
+    json_start will pull and analyze alerts from Sophos Central then create a file or append a file with the data pulled
+    This function will only run if enabled in the config file
+    """
     lines = common.config_load()
 
     for x in lines:
@@ -24,19 +32,19 @@ def json_start():
     log_file_name = save_file_location + file_name
 
     json_file_exists = exists(log_file_name)
-    alerts = alerts_grab(False)
+    alerts = alerts_grab(False)  # False indicates pull only from the last 24 hours
     note = 'Pulling Sophos Alerts'
-    common.log_add(note,log_from,3)
+    common.log_add(note, log_from, 3)
     alerts = alerts['items']
 
     if json_file_exists is True:
-        common.add_data_json(alerts,log_file_name)
+        common.add_data_json(alerts, log_file_name)
 
     if json_file_exists is False:
         with open(log_file_name, 'w') as outfile:
             json.dump(alerts, outfile)
             note = 'No alerts json file exited, created a new alerts json file'
-            common.log_add(note,log_from,2)
+            common.log_add(note, log_from, 2)
 
         new_alert_id_count = 0
         current_alert_data = []
@@ -49,12 +57,18 @@ def json_start():
             current_alert_data.append(x)
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + e + ' created at ' + t + ' added. Description: ' + d
-            common.log_add(note, log_from,4)
+            common.log_add(note, log_from, 3)
 
-        note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        common.log_add(note,log_from,3)
+        if new_alert_id_count > 0:
+            note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
+            common.log_add(note, log_from, 3)
+
 
 def txt_start():
+    """
+    txt_start will pull and analyze alerts from Sophos Central then create a file or append a file with the data pulled
+    This function will only run if enabled in the config file
+    """
     lines = common.config_load()
 
     for x in lines:
@@ -63,26 +77,27 @@ def txt_start():
         if 'save_file_location' in x:
             save_file_location = x.split('=')[1].strip()
 
-    log_file_name = save_file_location + file_name
+    log_file_name = save_file_location + file_name  # combines the location and file name to save the file
 
-    export_file = exists(log_file_name)
+    export_file = exists(log_file_name)  # checks to see if the txt alerts file has been created
     alerts = alerts_grab(False)
     note = 'Pulling Sophos Alerts'
     common.log_add(note, log_from, 3)
-    alerts = alerts['items']
+    alerts = alerts['items']  # creates a list for all the alerts
 
     if export_file is True:
-        add_log_data(alerts,log_file_name, True)
+        add_log_data(alerts, log_file_name, True)
 
     if export_file is False:
         add_log_data(alerts, log_file_name, False)
 
+
 def alerts_grab(timespan):
     """
     Pulls all alerts that have not been acknowledged yet.
-    timespan(bool) will identify how much data will be puulled
+    timespan(bool) will identify how much data will be pulled
         True will pull from the last 1000 entries
-        False will pull from the last 24 hours
+        False will pull from the last 1000 entries for the last 24 hours
     """
     if timespan is True:
         auth = cate.auth_header_grab()  # grabs the proper Authorization header
@@ -98,7 +113,7 @@ def alerts_grab(timespan):
         }
         request = requests.get(requestUrl, headers=requestHeaders)
 
-        return request.json()  # returns a dic with every alert. Each alert will have the following keys: (['id', 'allowedActions', 'category', 'description', 'groupKey', 'managedAgent', 'product', 'raisedAt', 'severity', 'tenant', 'type'])
+        return request.json()  # returns a dict with all alerts
 
     if timespan is False:
         d = datetime.today() - timedelta(days=1)  # creates a datetime variable for yesterday at this time
@@ -116,14 +131,19 @@ def alerts_grab(timespan):
         }
         request = requests.get(requestUrl, headers=requestHeaders)
 
-        return request.json()  # returns a dic with every alert. Each alert will have the following keys: (['id', 'allowedActions', 'category', 'description', 'groupKey', 'managedAgent', 'product', 'raisedAt', 'severity', 'tenant', 'type'])
+        return request.json()  # returns a dict with all alerts
+
 
 def alert_actions(alert_id):
+    """
+    alert_actions will identify and return all available alert actions of a specified alert
+    alert_id(str) is the id of the specific alert
+    """
     auth = cate.auth_header_grab()  # grabs the proper Authorization header
     info = cate.whoami()  # grabs the x-tenant-id and data region
-    tenant_id = info['id']
-    region = (info['apiHosts']['dataRegion'])
-    requestUrl = region + '/common/v1/alerts?ids=' + alert_id  # pulls the alert_id info
+    tenant_id = info['id']  # grabs the tenant id
+    region = (info['apiHosts']['dataRegion'])  # identifies the region for the URL
+    requestUrl = region + '/common/v1/alerts?ids=' + alert_id
 
     requestHeaders = {
         "X-Tenant-ID": tenant_id,
@@ -136,7 +156,8 @@ def alert_actions(alert_id):
     actions = alert_info['items'][0]['allowedActions']
     return actions
 
-def update_alert(action,alert_id):
+
+def update_alert(action, alert_id):
     """
     update_alert will update an alert based on the alert_id(str) and an action(str)
     each alert has an allowedAction which will give you the allowable action
@@ -148,7 +169,7 @@ def update_alert(action,alert_id):
     region = (info['apiHosts']['dataRegion'])
     requestUrl = region + '/common/v1/alerts/' + alert_id + '/actions'
     requestBody = {
-    "action": alert_action
+        "action": alert_action
     }
     requestHeaders = {
         "X-Tenant-ID": tenant_id,
@@ -158,13 +179,21 @@ def update_alert(action,alert_id):
     }
     request = requests.post(requestUrl, headers=requestHeaders, json=requestBody)
 
-    return request.json() # will a dict stating the id, the action chosen, the result of the action, the time requested, and the time completed.
+    return request.json()  # returns dict stating action chosen, result of the action, time requested, time completed
 
-def add_log_data(alerts,logfile,exist):
 
-    if exist is False:
-        new_alert_id_count = 0
-        alert_list = []
+def add_log_data(alerts, logfile, exist):
+    """
+    add_log_data analyzes alerts and adds them to a log file.
+    alerts(list) are a list of dict alerts created by Sophos
+    logfile(str) the name of the file the logs will be saved in
+    exist(bool) determines if a log file has already been created
+        if a logfile does not exist a new file will be created
+    """
+
+    if exist is False:  # if a log file does not exist
+        new_alert_id_count = 0  # creates a variable(int) starting at 0 to identify how many alert ids are added
+        alert_list = []  # creates a list to hold each new line to be added
         for x in alerts:
             createdAt = x['created_at']
             severity = x['severity']
@@ -175,7 +204,14 @@ def add_log_data(alerts,logfile,exist):
             data = str(data)
             location = x['location']
 
-            alert_line = '[Timestamp: ' + createdAt + '] ' + '[AlertID: ' + alertID + '] ' + '[Severity: ' + severity + '] ' + '[IP: ]' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[Data: ' + data + '}] ' + '[Location: ' + location + ']'
+            alert_line = ('[Timestamp: ' + createdAt + '] ' +
+                          '[AlertID: ' + alertID + '] ' +
+                          '[Severity: ' + severity + '] ' +
+                          '[IP: ]' +
+                          '[Description: ' + description + '] ' +
+                          '[AlertType: ' + alertType + '] ' +
+                          '[Data: ' + data + '}] ' +
+                          '[Location: ' + location + ']')
             alert_list.append(alert_line)
 
             new_alert_id_count = new_alert_id_count + 1
@@ -188,20 +224,21 @@ def add_log_data(alerts,logfile,exist):
                 f.write(x + '\n')
             f.close()
 
-        note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        common.log_add(note, log_from, 3)
+        if new_alert_id_count > 0:
+            note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
+            common.log_add(note, log_from, 3)
 
-    if exist is True:
+    if exist is True:  # if a log file does exist
         today = datetime.now()
-        today = today.strftime('%Y-%m-%d')
+        today = today.strftime('%Y-%m-%d')  # creates a variable for the current day to ensure adding new data
 
         with open(logfile, 'r') as f:
-            current_alerts = [line.strip() for line in f]
+            current_alerts = [line.strip() for line in f]  # adds all alerts from the log file to a list
 
         alert_id_list = []
         for x in current_alerts:
             alert_id = x.split('AlertID: ')[1].split(']')[0]
-            alert_id_list.append(alert_id)
+            alert_id_list.append(alert_id)  # creates a list of all alert_ids
 
         new_alert_id_count = 0
         alert_list = []
@@ -222,7 +259,14 @@ def add_log_data(alerts,logfile,exist):
                     data = str(data)
                     location = x['location']
 
-                    alert_line = '[Timestamp: ' + createdAt + '] ' + '[AlertID: ' + alertID + '] ' + '[Severity: ' + severity + '] ' + '[IP: ]' + '[Description: ' + description + '] ' + '[AlertType: ' + alertType + '] ' + '[Data: ' + data + '}] ' + '[Location: ' + location + ']'
+                    alert_line = ('[Timestamp: ' + createdAt + '] ' +
+                                  '[AlertID: ' + alertID + '] ' +
+                                  '[Severity: ' + severity + '] ' +
+                                  '[IP: ]' +
+                                  '[Description: ' + description + '] ' +
+                                  '[AlertType: ' + alertType + '] ' +
+                                  '[Data: ' + data + '}] ' +
+                                  '[Location: ' + location + ']')
                     alert_list.append(alert_line)
 
                     new_alert_id_count = new_alert_id_count + 1
@@ -234,10 +278,16 @@ def add_log_data(alerts,logfile,exist):
                 f.write(x + '\n')
             f.close()
 
-        note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
-        common.log_add(note, log_from, 3)
+        if new_alert_id_list > 0:
+            note = 'Added ' + str(new_alert_id_count) + ' new Alert IDs'
+            common.log_add(note, log_from, 3)
+
 
 def run():
+    """
+    run will continuously run either txt_start or json_start depending on the config file
+    The config file will determine the time between each pull
+    """
     lines = common.config_load()
 
     for x in lines:
@@ -246,14 +296,14 @@ def run():
             status = common.bool_return(status)
         if 'txt_file_creation' in x:
             txt_file = x.split(' = ')[1]
-            txt_file = common.bool_return(txt_file)
+            txt_file = common.bool_return(txt_file)  # returns a bool response for txt file creation
         if 'json_file_creation' in x:
             json_file = x.split(' = ')[1]
-            json_file = common.bool_return(json_file)
+            json_file = common.bool_return(json_file)  # returns a bool response for json file creation
 
     while status is True:
 
-        lines = common.config_load()
+        lines = common.config_load()  # will update the config settings after each pull
 
         for x in lines:
             if 'pull_time' in x:
@@ -274,7 +324,7 @@ def run():
                 txt_start()
             except Exception as err:
                 error = err
-                note = 'ERROR: ' + error
+                note = 'ERROR: ' + str(error)
                 common.log_add(note, log_from, 1)
 
         if json_file is True:
@@ -285,7 +335,7 @@ def run():
                 note = 'ERROR: ' + error
                 common.log_add(note, log_from, 1)
 
-        while pull_time >= 0:
+        while pull_time >= 0:  # creates a delay to identify next pull and prints the time left in the terminal
             if pull_time == 0:
                 time_left = (str(pull_time) + ' seconds till next alerts pull')
                 sys.stdout.write('%s\r' % time_left)

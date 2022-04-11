@@ -1,3 +1,6 @@
+"""
+S_Events holds all functions that specifically deal with Events
+"""
 import sys
 from os.path import exists
 import json
@@ -10,9 +13,14 @@ import s_common as common
 
 
 global log_from
-log_from = 'Events'
+log_from = 'Events'  # defines for all logs where the log is connected to
+
 
 def json_start():
+    """
+    json_start will pull and analyze events from Sophos Central then create a file or append a file with the data pulled
+    This function will only run if enabled in the config file
+    """
     lines = common.config_load()
     for x in lines:
         if 'events_json_file_name' in x:
@@ -25,18 +33,18 @@ def json_start():
     json_file_exists = exists(log_file_name)
     events = events_pull(False)
     note = 'Pulling Sophos Events'
-    message = common.log_add(note,log_from,3)
+    message = common.log_add(note, log_from, 3)
     print(message)
     events = events['items']
 
     if json_file_exists is True:
-        common.add_data_json(events,log_file_name)
+        common.add_data_json(events, log_file_name)
 
     if json_file_exists is False:
         with open(log_file_name, 'w') as outfile:
             json.dump(events, outfile)
             note = 'No events json file exited, created a new events json file'
-            common.log_add(note,log_from,2)
+            common.log_add(note, log_from, 2)
             print('File does not exist')
 
         new_event_id_count = 0
@@ -50,12 +58,18 @@ def json_start():
             current_event_data.append(x)
             new_event_id_count = new_event_id_count + 1
             note = 'Event ID: ' + e + ' created at ' + t + ' added. Description: ' + d
-            common.log_add(note, log_from,4)
+            common.log_add(note, log_from, 4)
 
-        note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-        common.log_add(note,log_from,3)
+        if new_event_data > 0:
+            note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
+            common.log_add(note, log_from, 3)
+
 
 def txt_start():
+    """
+    txt_start will pull and analyze events from Sophos Central then create a file or append a file with the data pulled
+    This function will only run if enabled in the config file
+    """
     lines = common.config_load()
 
     for x in lines:
@@ -78,7 +92,15 @@ def txt_start():
     if export_file is False:
         add_log_data(events, log_file_name, True)
 
-def add_log_data(events,logfile,newfile):
+
+def add_log_data(events, logfile, newfile):
+    """
+    add_log_data analyzes alerts and adds them to a log file.
+    events(list) are a list of dict alerts created by Sophos
+    logfile(str) the name of the file the logs will be saved in
+    exist(bool) determines if a log file has already been created
+        if a logfile does not exist a new file will be created
+    """
 
     if newfile is True:
         today = datetime.now()
@@ -101,7 +123,16 @@ def add_log_data(events,logfile,newfile):
                 eventType = x['type']
                 group = x['group']
 
-                event_line = '[Timestamp: ' + createdAt + '] ' + '[EventID: ' + eventID + '] ' + '[Severity: ' + severity + '] ' + '[Name: ' + name + '] ' + '[IP: ]' + '[EventType: ' + eventType + '] ' + '[SourceInfo: ' + str(sourceInfo) + '] ' + '[Location: ' + location + '] ' + '[Group: ' + group + '] ' + '[CustomerID: ' + customerID + ']'
+                event_line = ('[Timestamp: ' + createdAt + '] ' +
+                              '[EventID: ' + eventID + '] ' +
+                              '[Severity: ' + severity + '] ' +
+                              '[Name: ' + name + '] ' +
+                              '[IP: ]' +
+                              '[EventType: ' + eventType + '] ' +
+                              '[SourceInfo: ' + str(sourceInfo) + '] ' +
+                              '[Location: ' + location + '] ' +
+                              '[Group: ' + group + '] ' +
+                              '[CustomerID: ' + customerID + ']')
                 events_list.append(event_line)
 
                 new_event_id_count = new_event_id_count + 1
@@ -113,8 +144,9 @@ def add_log_data(events,logfile,newfile):
                 f.write(x + '\n')
             f.close()
 
-        note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-        common.log_add(note, log_from, 3)
+        if new_event_id_count > 0:
+            note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
+            common.log_add(note, log_from, 3)
 
     if newfile is False:
         today = datetime.now()
@@ -150,29 +182,40 @@ def add_log_data(events,logfile,newfile):
                     group = x['group']
                     ip = ' '
 
-                    event_line = '[Timestamp: ' + createdAt + '] ' + '[EventID: ' + eventID + '] ' + '[Severity: ' + severity + '] ' + '[Name: ' + name + '] ' + '[IP: ]' + '[EventType: ' + eventType + '] ' + '[SourceInfo: ' + str(sourceInfo) + '] ' + '[Location: ' + location + '] ' + '[Group: ' + group + '] ' + '[CustomerID: ' + customerID + ']'
+                    event_line = ('[Timestamp: ' + createdAt + '] ' +
+                                  '[EventID: ' + eventID + '] ' +
+                                  '[Severity: ' + severity + '] ' +
+                                  '[Name: ' + name + '] ' +
+                                  '[IP: ]' +
+                                  '[EventType: ' + eventType + '] ' +
+                                  '[SourceInfo: ' + str(sourceInfo) + '] ' +
+                                  '[Location: ' + location + '] ' +
+                                  '[Group: ' + group + '] ' +
+                                  '[CustomerID: ' + customerID + ']')
                     events_list.append(event_line)
 
                     new_event_id_count = new_event_id_count + 1
                     note = 'Event ID: ' + eventID + ' created at ' + createdAt + ' added. Name: ' + name
                     common.log_add(note, log_from, 4)
 
-
         with open(logfile, 'a') as f:
             for x in events_list:
                 f.write(x + '\n')
             f.close()
 
-        note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
-        common.log_add(note, log_from, 3)
+        if new_event_id_count > 0:
+            note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
+            common.log_add(note, log_from, 3)
+
 
 def events_pull(timespan):
     """
     events will grab the events from sophos
-    timespan(bool) will identify how much data will be puulled
+    timespan(bool) will identify how much data will be pulled
         True will pull from the last 1000 entries
         False will pull from the last 24 hours
     """
+
     if timespan is True:
         auth = cate.auth_header_grab()
         info = cate.whoami()
@@ -205,7 +248,13 @@ def events_pull(timespan):
 
         return request.json()
 
+
 def run():
+    """
+    run will continuously run either txt_start or json_start depending on the config file
+    The config file will determine the time between each pull
+    """
+
     lines = common.config_load()
 
     for x in lines:
@@ -241,7 +290,7 @@ def run():
             try:
                 txt_start()
             except Exception as err:
-                error = err
+                error = str(err)
                 note = 'ERROR: ' + error
                 common.log_add(note, log_from, 1)
 
@@ -249,7 +298,7 @@ def run():
             try:
                 json_start()
             except Exception as err:
-                error = err
+                error = str(err)
                 note = 'ERROR: ' + error
                 common.log_add(note, log_from, 1)
 

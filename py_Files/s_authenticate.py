@@ -1,5 +1,6 @@
-import sys
-import os
+"""
+S_Authenticate holds all functions that specifically deal with authentication with Sophos Central
+"""
 import json
 import urllib
 import urllib.parse
@@ -8,7 +9,8 @@ import requests
 import s_common as common
 
 global log_from
-log_from = 'System'
+log_from = 'System'  # defines for all logs where the log is connected to
+
 
 def api_request(url, method='GET', params={}, headers={}, body=None, is_json=True):
     full_url = url
@@ -53,6 +55,7 @@ def api_request(url, method='GET', params={}, headers={}, body=None, is_json=Tru
 
     return json.loads(response_body)
 
+
 def authenticate(client_id, client_secret):
     body = {
         'grant_type': 'client_credentials',
@@ -61,18 +64,21 @@ def authenticate(client_id, client_secret):
         'scope': 'token'
     }
 
-    auth = api_request('https://id.sophos.com/api/v2/oauth2/token',
-                   method='POST', body=body, is_json=False)
+    auth = api_request('https://id.sophos.com/api/v2/oauth2/token', method='POST', body=body, is_json=False)
 
     if auth is None:
         raise SystemExit('Failed to authenticate', auth)
 
     return [auth[k] for k in ('access_token', 'refresh_token', 'token_type')]
 
+
 def auth_header_grab():
     """
-    This function returns the proper authentication header by taking the API token (client_id(str) and client_secret(str)) and creating the proper header.
+    This function returns the proper authentication header by taking the API token (client_id(str) and
+    client_secret(str)) and creating the proper header.
     The client_id and client_secret are in a config file which is imported
+
+        return auth_header(dict)
     """
     with open('sophos.conf') as f:
         lines = [line.strip() for line in f]
@@ -84,22 +90,23 @@ def auth_header_grab():
             client_secret = x.split(' = ')[1]
 
 
-    access_token, refresh_token, token_type = authenticate(client_id,
-                                                           client_secret)
-
+    access_token, refresh_token, token_type = authenticate(client_id, client_secret)
     auth_header = token_type.title() + ' ' + access_token
 
     return auth_header
 
+
 def whoami():
     """
     whoami returns the unique ID assigned to the specific entity.
-    whoami takes no parameters but is needed for all api requests to get a X-Tenant-ID and a data region
+    whoami takes no parameters but is needed for all api requests to get X-Tenant-ID and a data region
+
+        return request(dict)
     """
     success = 5
     while success >= 0:
         try:
-            auth = auth_header_grab() # grabs the proper Authorization header
+            auth = auth_header_grab()  # grabs the proper Authorization header
             requestUrl = "https://api.central.sophos.com/whoami/v1"
             requestHeaders = {
                 "Authorization": auth,
@@ -108,10 +115,10 @@ def whoami():
 
             request = requests.get(requestUrl, headers=requestHeaders)
 
-            note = 'WhoAmI Authentication Sucessfull'
+            note = 'WhoAmI Authentication Successful'
             common.log_add(note, log_from, 4)
 
-            return (request.json()) # will return in a dict the X-Tenant-ID and the data region
+            return request.json()  # will return in a dict the X-Tenant-ID and the data region
 
         except:
 
@@ -119,10 +126,7 @@ def whoami():
                 note = 'ERROR: WhoAmI Authentication TimedOut'
                 common.log_add(note, log_from, 1)
                 success = success - 1
-
-
             else:
                 note = 'ERROR: WhoAmI Authentication unsuccessful, attempting ' + str(success) + ' more attempts.'
                 common.log_add(note, log_from, 1)
                 success = success - 1
-
