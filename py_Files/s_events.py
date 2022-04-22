@@ -60,7 +60,7 @@ def json_start():
             note = 'Event ID: ' + e + ' created at ' + t + ' added. Description: ' + d
             common.log_add(note, log_from, 4)
 
-        if new_event_data > 0:
+        if new_event_id_count > 0:
             note = 'Added ' + str(new_event_id_count) + ' new Event IDs'
             common.log_add(note, log_from, 3)
 

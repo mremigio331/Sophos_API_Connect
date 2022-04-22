@@ -265,6 +265,59 @@ def config_check():
         return True
 
 
+def auto_acknowledge_level():
+    """ 
+    reads the config file and returns a dict for auto_acknowledge
+        
+        retun acknowledge_levls(dict)
+    """
+
+    lines = config_load()
+
+    for x in lines:
+        if 'alerts_auto_acknowledge' in x:
+            alerts_auto_acknowledge = x.split(' = ')[1]
+        if 'alerts_auto_acknowledge_leve' in x:
+            alerts_auto_acknowledge_level = x.split('=')[1].strip()
+        if 'events_auto_acknowledge' in x:
+            events_auto_acknowledge = x.split(' = ')[1]
+        if 'alerts_auto_acknowledge_leve' in x:
+            events_auto_acknowledge_level = x.split('=')[1].strip()
+
+        if alerts_auto_acknowledge_level in ['Low', 'low', 'LOW']:
+            alerts_levels = ['low']
+
+        if alerts_auto_acknowledge_level in ['Medium', 'medium', 'MEDIUM']:
+            alerts_levels = ['low', 'medium']
+
+        if alerts_auto_acknowledge_level in ['High', 'high', 'HIGH']:
+            alerts_levels = ['low', 'medium', 'high']
+
+        if events_auto_acknowledge_level in ['None', 'none', 'NONE']:
+            events_levels = ['none']
+
+        if events_auto_acknowledge_level in ['Low', 'low', 'LOW']:
+            events_levels = ['none', 'low']
+
+        if events_auto_acknowledge_level in ['Medium', 'medium', 'MEDIUM']:
+            events_levels = ['none','low','medium']
+
+        if events_auto_acknowledge_level in ['High', 'high', 'HIGH']:
+            events_levels = ['none','low','medium','high']
+
+        if events_auto_acknowledge_level in ['Critical', 'critical', 'CRITICAL']:
+            events_levels = ['none','low','medium','high','critical']
+
+        acknowledge_levels = {'alerts':
+                                  {'auto_acknowledge': alerts_auto_acknowledge,
+                                   'level': alerts_levels},
+                              'events':
+                                  {'auto_acknowledge': events_auto_acknowledge,
+                                   'level': events_levels}}
+
+        return acknowledge_levels
+
+
 def log_level():
     """
     log_level reads the config file and returns an int variable
