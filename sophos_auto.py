@@ -116,4 +116,4 @@ if ('-w' in sys.argv) or ('-whoami' in sys.argv):
     The -w or -whoami flag will attempt a whoami authentication via the authenticate.py file
     """
     print('*** Attempting a WhoAmI Authentication Request ***')
-    cate.whoami()
+    print(cate.whoami())
