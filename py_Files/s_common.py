@@ -269,15 +269,10 @@ def auto_acknowledge_level():
     """ 
     reads the config file and returns a dict for auto_acknowledge
         
-        retun acknowledge_levls(dict)
+        return acknowledge_levels(dict)
     """
 
     lines = config_load()
-
-    alerts_auto_acknowledge = False
-    alerts_auto_acknowledge_level = []
-    events_auto_acknowledge = False
-    events_auto_acknowledge_level = []
 
     for x in lines:
         if 'alerts_auto_acknowledge' in x:
