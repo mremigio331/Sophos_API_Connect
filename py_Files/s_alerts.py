@@ -197,6 +197,7 @@ def add_log_data(alerts, logfile, exist):
     acknowledge_level = acknowledge['alerts']['auto_acknowledge']
     acknowledge_level = common.bool_return(acknowledge_level)
     auto_acknowledge_levels = acknowledge['alerts']['level']
+    print(auto_acknowledge_levels)
 
     if exist is False:  # if a log file does not exist
         new_alert_id_count = 0  # creates a variable(int) starting at 0 to identify how many alert ids are added
@@ -210,7 +211,6 @@ def add_log_data(alerts, logfile, exist):
             data = x['data']
             data = str(data)
             location = x['location']
-
 
             alert_line = ('[Reporter: Sophos Central] ' +
                           '[Timestamp: ' + createdAt + '] ' +

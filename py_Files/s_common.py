@@ -300,13 +300,13 @@ def auto_acknowledge_level():
             events_levels = ['none', 'low']
 
         if events_auto_acknowledge_level in ['Medium', 'medium', 'MEDIUM']:
-            events_levels = ['none','low','medium']
+            events_levels = ['none', 'low', 'medium']
 
         if events_auto_acknowledge_level in ['High', 'high', 'HIGH']:
-            events_levels = ['none','low','medium','high']
+            events_levels = ['none', 'low', 'medium', 'high']
 
         if events_auto_acknowledge_level in ['Critical', 'critical', 'CRITICAL']:
-            events_levels = ['none','low','medium','high','critical']
+            events_levels = ['none', 'low', 'medium', 'high', 'critical']
 
         acknowledge_levels = {'alerts':
                                   {'auto_acknowledge': alerts_auto_acknowledge,
