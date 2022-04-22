@@ -179,8 +179,6 @@ def update_alert(action, alert_id):
     }
     request = requests.post(requestUrl, headers=requestHeaders, json=requestBody)
 
-
-
     return request.json()  # returns dict stating action chosen, result of the action, time requested, time completed
 
 

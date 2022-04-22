@@ -315,6 +315,7 @@ def auto_acknowledge_level():
                                   {'auto_acknowledge': events_auto_acknowledge,
                                    'level': events_levels}}
 
+        print('acknowledge_levels loaded')
         return acknowledge_levels
 
 
