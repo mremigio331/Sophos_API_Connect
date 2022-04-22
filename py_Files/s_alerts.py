@@ -344,7 +344,7 @@ def run():
         if txt_file is True:
             #try:
             txt_start()
-"""            except Exception as err:
+            """            except Exception as err:
                 error = err
                 note = 'ERROR: ' + str(error)
                 common.log_add(note, log_from, 1) """
