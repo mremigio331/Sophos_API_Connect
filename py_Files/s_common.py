@@ -274,6 +274,11 @@ def auto_acknowledge_level():
 
     lines = config_load()
 
+    alerts_auto_acknowledge = False
+    alerts_auto_acknowledge_level = []
+    events_auto_acknowledge = False
+    events_auto_acknowledge_level = []
+
     for x in lines:
         if 'alerts_auto_acknowledge' in x:
             alerts_auto_acknowledge = x.split(' = ')[1]
