@@ -276,11 +276,11 @@ def auto_acknowledge_level():
 
     for x in lines:
         if 'alerts_auto_acknowledge' in x:
-            alerts_auto_acknowledge = x.split(' = ')[1]
-            print(alerts_auto_acknowledge)
+            alerts_auto_acknowledge_status = x.split(' = ')[1]
+            print(alerts_auto_acknowledge_status)
         if 'alerts_auto_acknowledge_level' in x:
-            alerts_auto_acknowledge_level = x.split(' = ')[1].strip()
-            print(alerts_auto_acknowledge_level)
+            alerts_auto_acknowledge_levels = x.split(' = ')[1].strip()
+            print(alerts_auto_acknowledge_levels)
         if 'events_auto_acknowledge' in x:
             events_auto_acknowledge = x.split(' = ')[1]
             print(events_auto_acknowledge)
@@ -288,16 +288,16 @@ def auto_acknowledge_level():
             events_auto_acknowledge_level = x.split(' = ')[1].strip()
             print(events_auto_acknowledge_level)
 
-        if alerts_auto_acknowledge_level in ['Low', 'low', 'LOW']:
+        if alerts_auto_acknowledge_levels in ['Low', 'low', 'LOW']:
             alerts_levels = ['low']
 
-        if alerts_auto_acknowledge_level in ['Medium', 'medium', 'MEDIUM']:
+        if alerts_auto_acknowledge_levels in ['Medium', 'medium', 'MEDIUM']:
             alerts_levels = ['low', 'medium']
 
-        if alerts_auto_acknowledge_level in ['High', 'high', 'HIGH']:
+        if alerts_auto_acknowledge_levels in ['High', 'high', 'HIGH']:
             alerts_levels = ['low', 'medium', 'high']
 
-        if events_auto_acknowledge_level in ['None', 'none', 'NONE']:
+        if alerts_auto_acknowledge_levels in ['None', 'none', 'NONE']:
             events_levels = ['none']
 
         if events_auto_acknowledge_level in ['Low', 'low', 'LOW']:
@@ -313,7 +313,7 @@ def auto_acknowledge_level():
             events_levels = ['none', 'low', 'medium', 'high', 'critical']
 
         acknowledge_levels = {'alerts':
-                                  {'auto_acknowledge': alerts_auto_acknowledge,
+                                  {'auto_acknowledge': alerts_auto_acknowledge_status,
                                    'level': alerts_levels},
                               'events':
                                   {'auto_acknowledge': events_auto_acknowledge,
