@@ -276,11 +276,11 @@ def auto_acknowledge_level():
     print(lines)
 
     for x in lines:
-        if 'alerts_auto_acknowledge' in x:
+        if 'alerts_auto_acknowledge_status' in x:
             alerts_auto_acknowledge_status = x.split(' = ')[1]
         if 'alerts_auto_acknowledge_level' in x:
             alerts_auto_acknowledge_levels = x.split(' = ')[1].strip()
-        if 'events_auto_acknowledge' in x:
+        if 'events_auto_acknowledge_status' in x:
             events_auto_acknowledge_status = x.split(' = ')[1]
         if 'events_auto_acknowledge_level' in x:
             events_auto_acknowledge_level = x.split(' = ')[1].strip()
