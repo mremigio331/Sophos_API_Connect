@@ -39,16 +39,16 @@ def alerts_grab():
     Alert_grab starts the run function in the alerts.py
     If any error occurs the error is documented depending on the error type
     """
-    #try:
-    alerts.run()
-    """
+    try:
+        alerts.run()
+
     except Exception as e:
         note = 'ERROR: ' + str(e)
         common.log_add(note, 'Alerts', 1)
     except KeyboardInterrupt:  # will throw alert code if a user manually stops the code
         note = 'User Ended Alert_Pull'
         common.log_add(note, 'Alerts', 2)
-    """
+    
 
 def events_grab():
     """

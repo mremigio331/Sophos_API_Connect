@@ -278,16 +278,12 @@ def auto_acknowledge_level():
     for x in lines:
         if 'alerts_auto_acknowledge' in x:
             alerts_auto_acknowledge_status = x.split(' = ')[1]
-            print(alerts_auto_acknowledge_status)
         if 'alerts_auto_acknowledge_level' in x:
             alerts_auto_acknowledge_levels = x.split(' = ')[1].strip()
-            print(alerts_auto_acknowledge_levels)
         if 'events_auto_acknowledge' in x:
             events_auto_acknowledge_status = x.split(' = ')[1]
-            print(events_auto_acknowledge_status)
         if 'events_auto_acknowledge_level' in x:
             events_auto_acknowledge_level = x.split(' = ')[1].strip()
-            print(events_auto_acknowledge_level)
 
     if alerts_auto_acknowledge_levels in ['Low', 'low', 'LOW']:
         alerts_levels = ['low']
@@ -320,7 +316,6 @@ def auto_acknowledge_level():
                               {'auto_acknowledge': events_auto_acknowledge_status,
                                'level': events_levels}}
 
-    print('acknowledge_levels loaded')
     return acknowledge_levels
 
 

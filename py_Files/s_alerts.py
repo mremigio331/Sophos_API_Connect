@@ -342,12 +342,13 @@ def run():
                 json_file = common.bool_return(json_file)
 
         if txt_file is True:
-            #try:
-            txt_start()
-            """            except Exception as err:
+            try:
+                txt_start()
+
+            except Exception as err:
                 error = err
                 note = 'ERROR: ' + str(error)
-                common.log_add(note, log_from, 1) """
+                common.log_add(note, log_from, 1)
 
         if json_file is True:
             try:
