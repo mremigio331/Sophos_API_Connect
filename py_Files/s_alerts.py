@@ -195,8 +195,6 @@ def add_log_data(alerts, logfile, exist):
     acknowledge_level = acknowledge['alerts']['auto_acknowledge']
     acknowledge_level = common.bool_return(acknowledge_level)
     auto_acknowledge_levels = acknowledge['alerts']['level']
-    print(acknowledge_level)
-    print(auto_acknowledge_levels)
 
     if exist is False:  # if a log file does not exist
         new_alert_id_count = 0  # creates a variable(int) starting at 0 to identify how many alert ids are added
@@ -289,11 +287,11 @@ def add_log_data(alerts, logfile, exist):
                     note = 'Alert ID: ' + alertID + ' created at ' + createdAt + ' added. Description: ' + description
                     common.log_add(note, log_from, 4)
 
-            if acknowledge_level is True:
-                if severity in auto_acknowledge_levels:
-                    update = update_alert('acknowledge', alertID)
-                    note = 'Auto Acknowledged Alert ID: ' + alertID + ' ' + str(update)
-                    common.log_add(note, log_from, 4)
+                if acknowledge_level is True:
+                    if severity in auto_acknowledge_levels:
+                        update = update_alert('acknowledge', alertID)
+                        note = 'Auto Acknowledged Alert ID: ' + alertID + ' ' + str(update)
+                        common.log_add(note, log_from, 4)
 
         with open(logfile, 'a') as f:
             for x in alert_list:
