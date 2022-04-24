@@ -283,45 +283,45 @@ def auto_acknowledge_level():
             alerts_auto_acknowledge_levels = x.split(' = ')[1].strip()
             print(alerts_auto_acknowledge_levels)
         if 'events_auto_acknowledge' in x:
-            events_auto_acknowledge = x.split(' = ')[1]
-            print(events_auto_acknowledge)
+            events_auto_acknowledge_status = x.split(' = ')[1]
+            print(events_auto_acknowledge_status)
         if 'events_auto_acknowledge_level' in x:
             events_auto_acknowledge_level = x.split(' = ')[1].strip()
             print(events_auto_acknowledge_level)
 
-        if alerts_auto_acknowledge_levels in ['Low', 'low', 'LOW']:
-            alerts_levels = ['low']
+    if alerts_auto_acknowledge_levels in ['Low', 'low', 'LOW']:
+        alerts_levels = ['low']
 
-        if alerts_auto_acknowledge_levels in ['Medium', 'medium', 'MEDIUM']:
-            alerts_levels = ['low', 'medium']
+    if alerts_auto_acknowledge_levels in ['Medium', 'medium', 'MEDIUM']:
+        alerts_levels = ['low', 'medium']
 
-        if alerts_auto_acknowledge_levels in ['High', 'high', 'HIGH']:
-            alerts_levels = ['low', 'medium', 'high']
+    if alerts_auto_acknowledge_levels in ['High', 'high', 'HIGH']:
+        alerts_levels = ['low', 'medium', 'high']
 
-        if alerts_auto_acknowledge_levels in ['None', 'none', 'NONE']:
-            events_levels = ['none']
+    if alerts_auto_acknowledge_levels in ['None', 'none', 'NONE']:
+        events_levels = ['none']
 
-        if events_auto_acknowledge_level in ['Low', 'low', 'LOW']:
-            events_levels = ['none', 'low']
+    if events_auto_acknowledge_level in ['Low', 'low', 'LOW']:
+        events_levels = ['none', 'low']
 
-        if events_auto_acknowledge_level in ['Medium', 'medium', 'MEDIUM']:
-            events_levels = ['none', 'low', 'medium']
+    if events_auto_acknowledge_level in ['Medium', 'medium', 'MEDIUM']:
+        events_levels = ['none', 'low', 'medium']
 
-        if events_auto_acknowledge_level in ['High', 'high', 'HIGH']:
-            events_levels = ['none', 'low', 'medium', 'high']
+    if events_auto_acknowledge_level in ['High', 'high', 'HIGH']:
+        events_levels = ['none', 'low', 'medium', 'high']
 
-        if events_auto_acknowledge_level in ['Critical', 'critical', 'CRITICAL']:
-            events_levels = ['none', 'low', 'medium', 'high', 'critical']
+    if events_auto_acknowledge_level in ['Critical', 'critical', 'CRITICAL']:
+        events_levels = ['none', 'low', 'medium', 'high', 'critical']
 
-        acknowledge_levels = {'alerts':
-                                  {'auto_acknowledge': alerts_auto_acknowledge_status,
-                                   'level': alerts_levels},
-                              'events':
-                                  {'auto_acknowledge': events_auto_acknowledge,
-                                   'level': events_levels}}
+    acknowledge_levels = {'alerts':
+                              {'auto_acknowledge': alerts_auto_acknowledge_status,
+                               'level': alerts_levels},
+                          'events':
+                              {'auto_acknowledge': events_auto_acknowledge_status,
+                               'level': events_levels}}
 
-        print('acknowledge_levels loaded')
-        return acknowledge_levels
+    print('acknowledge_levels loaded')
+    return acknowledge_levels
 
 
 def log_level():
