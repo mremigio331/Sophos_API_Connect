@@ -195,6 +195,7 @@ def add_log_data(alerts, logfile, exist):
     acknowledge_level = acknowledge['alerts']['auto_acknowledge']
     acknowledge_level = common.bool_return(acknowledge_level)
     auto_acknowledge_levels = acknowledge['alerts']['level']
+    print(acknowledge_level)
     print(auto_acknowledge_levels)
 
     if exist is False:  # if a log file does not exist
