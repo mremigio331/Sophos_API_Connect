@@ -224,8 +224,7 @@ def add_log_data(alerts, logfile, exist):
 
             new_alert_id_count = new_alert_id_count + 1
             note = 'Alert ID: ' + alertID + ' created at ' + createdAt + ' added. Description: ' + description
-            message = common.log_add(note, log_from, 4)
-            print(message)
+            common.log_add(note, log_from, 4)
 
             if acknowledge_level is True:
                 if severity in auto_acknowledge_levels:

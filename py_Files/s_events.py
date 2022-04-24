@@ -33,8 +33,7 @@ def json_start():
     json_file_exists = exists(log_file_name)
     events = events_pull(False)
     note = 'Pulling Sophos Events'
-    message = common.log_add(note, log_from, 3)
-    print(message)
+    common.log_add(note, log_from, 3)
     events = events['items']
 
     if json_file_exists is True:
